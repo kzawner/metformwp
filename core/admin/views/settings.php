@@ -52,6 +52,14 @@ $settings = \MetForm\Core\Admin\Base::instance()->get_settings_option();
                                 </div>
                             </a>
                         </li>
+                        <li>
+                            <a href="#mf-keycrm_integration" class="mf-setting-nav-link">
+                                <div class="mf-setting-tab-content">
+                                    <span class="mf-setting-title"><?php echo esc_html__('KeyCRM Integration', 'metform'); ?></span>
+                                    <span class="mf-setting-subtitle"><?php echo esc_html__('KeyCRM integration info here', 'metform'); ?></span>
+                                </div>
+                            </a>
+                        </li>
                         <?php if (class_exists('\MetForm_Pro\Core\Integrations\Google_Sheet\WF_Google_Sheet')) :?>
                         <li>
                             <a href="#mf-google_sheet_integration" class="mf-setting-nav-link">
@@ -950,6 +958,96 @@ $settings = \MetForm\Core\Admin\Base::instance()->get_settings_option();
                             </div>
                         </div>
                         <!-- ./End Mail Integration Tab -->
+
+                        <!-- KeyCRM Integration Tab -->
+                        <div class="mf-settings-section" id="mf-keycrm_integration">
+                            <div class="mf-settings-single-section">
+                                <?php if (class_exists('\MetForm\Core\Integrations\Mail_Chimp')) : ?>
+                                    <div class="mf-setting-header">
+                                        <h3 class="mf-settings-single-section--title"><span class="mf mf-settings"></span><?php esc_html_e('KeyCRM Integration', 'metform'); ?>
+                                        </h3>
+                                        <button type="submit" name="submit" id="submit" class="mf-admin-setting-btn active"><span class="mf mf-icon-checked-fillpng"></span><?php esc_attr_e('Save Changes', 'metform'); ?></button>
+                                    </div>
+
+
+                                    <div class="mf-setting-tab-nav">
+                                        <ul class="attr-nav attr-nav-tabs" id="nav-tab" role="attr-tablist">
+                                            <li class="attr-active attr-in">
+                                                <a class="attr-nav-item attr-nav-link" data-toggle="tab" href="#mf-mailchimp-tab" role="tab"><?php esc_attr_e('KeyCRM', 'metform'); ?></a>
+                                            </li>
+
+                                            <?php if (did_action('xpd_metform_pro/plugin_loaded')) : ?>
+                                                <li>
+                                                    <a class="attr-nav-item attr-nav-link" data-toggle="tab" href="#attr-aweber-tab" role="tab" aria-controls="nav-profile" aria-selected="false"><?php esc_html_e('AWeber', 'metform'); ?></a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="attr-nav-item attr-nav-link" data-toggle="tab" href="#attr-activeCampaign-tab" role="tab" aria-controls="nav-contact" aria-selected="false"><?php esc_html_e('ActiveCampaign', 'metform'); ?></a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="attr-nav-item attr-nav-link" data-toggle="tab" href="#attr-getresponse-tab" role="tab" aria-controls="nav-contact" aria-selected="false"><?php esc_html_e('Get Response', 'metform'); ?></a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="attr-nav-item attr-nav-link" data-toggle="tab" href="#attr-ckit-tab" role="tab" aria-controls="nav-profile" aria-selected="false"><?php esc_html_e('ConvertKit', 'metform'); ?></a>
+                                                </li>
+
+	                                            <?php   do_action( 'get_pro_settings_tab_for_newsletter_integration' ); ?>
+
+                                            <?php endif; ?>
+                                        </ul>
+                                    </div>
+
+                                    <div class="attr-form-group">
+                                        <div class="attr-tab-content" id="nav-tabContent">
+                                            <div class="attr-tab-pane attr-fade attr-active attr-in" id="mf-mailchimp-tab" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                                                <div class="attr-row">
+
+                                                    <div class="attr-col-lg-6">
+                                                        <div class="mf-setting-input-group">
+                                                            <label for="attr-input-label" class="mf-setting-label mf-setting-label attr-input-label"><?php esc_html_e('API Key:', 'metform'); ?></label>
+                                                            <input type="text" name="mf_keycrm_api_key" value="<?php echo esc_attr((isset($settings['mf_keycrm_api_key'])) ? $settings['mf_keycrm_api_key'] : ''); ?>" class="mf-setting-input mf-keycrm-api-key attr-form-control" placeholder="<?php esc_html_e('KeyCRM API key', 'metform'); ?>">
+                                                            <p class="description">
+                                                                <?php esc_html_e('Enter here your KeyCRM API key. ', 'metform'); ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr class="mf-setting-separator">
+
+                                    <div class="attr-form-group">
+                                        <div class="attr-tab-content" id="nav-tabContent">
+
+                                            <div class="attr-tab-pane attr-fade attr-active attr-in" id="mf-mailchimp-tab" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <div class="attr-row">
+                                                    <div class="attr-col-lg-12">
+                                                        <div class="mf-setting-input-group">
+                                                            <label for="attr-input-label" class="mf-setting-label mf-setting-label attr-input-label"><?php esc_html_e('Source ID:', 'metform'); ?></label>
+                                                            <input type="text" name="mf_keycrm_source_id" value="<?php echo esc_attr((isset($settings['mf_keycrm_source_id'])) ? $settings['mf_keycrm_source_id'] : ''); ?>" class="mf-setting-input mf-keycrm-source-id attr-form-control" placeholder="<?php esc_html_e('Source ID', 'metform'); ?>">
+                                                        </div>
+
+                                                        <div class="mf-setting-input-group">
+                                                            <label for="attr-input-label" class="mf-setting-label mf-setting-label attr-input-label"><?php esc_html_e('Product SKU:', 'metform'); ?></label>
+                                                            <input type="text" name="mf_keycrm_sku" value="<?php echo esc_attr((isset($settings['mf_keycrm_sku'])) ? $settings['mf_keycrm_sku'] : ''); ?>" class="mf-setting-input mf-keycrm-sku attr-form-control" placeholder="<?php esc_html_e('Product SKU', 'metform'); ?>">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <!-- ./End KeyCRM Integration Tab -->
+
                         <?php if (class_exists('\MetForm_Pro\Core\Integrations\Google_Sheet\WF_Google_Sheet')) :?>
                         <!-- google sheet Integration Tab -->
                         <div class="mf-settings-section" id="mf-google_sheet_integration">

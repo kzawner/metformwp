@@ -4,6 +4,7 @@ namespace MetForm\Core\Entries;
 
 use MetForm\Core\Integrations\Get_Response;
 use MetForm\Core\Integrations\Mail_Chimp;
+use MetForm\Core\Integrations\KeyCRM;
 
 defined('ABSPATH') || exit;
 

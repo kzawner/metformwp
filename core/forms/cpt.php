@@ -114,6 +114,15 @@ class Cpt extends \MetForm\Base\Cpt
                 'name' => 'mf_mail_chimp',
             ],
 
+            'mf_keycrm' => [
+                'name' => 'mf_keycrm',
+            ],
+            'mf_keycrm_sku' => [
+                'name' => 'mf_keycrm_sku',
+            ],
+            'mf_keycrm_source_id' => [
+                'name' => 'mf_keycrm_source_id',
+            ],
             'mf_get_response' => [
                 'name' => 'mf_get_response',
             ],
@@ -134,6 +143,10 @@ class Cpt extends \MetForm\Base\Cpt
             'mf_automizy_list_id' => [
 		        'name' => 'mf_automizy_list_id'
 	        ],
+
+            'mf_keycrm_api_key' => [
+                'name' => 'mf_keycrm_api_key',
+            ],
 
             'mf_rest_api' => [
                 'name' => 'mf_rest_api',

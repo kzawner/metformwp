@@ -243,6 +243,19 @@ class Action
             }
         }
 
+        // keycrm action
+        if (class_exists('\MetForm\Core\Integrations\KeyCRM')) {
+            /* error_log($form_data); */
+            if (isset($this->form_settings['mf_keycrm']) && $this->form_settings['mf_keycrm'] == '1') {
+
+              $crm = new \MetForm\Core\Integrations\KeyCRM();
+              $response = $crm->call_api($form_data, $this->form_settings);
+
+              $this->response->status = isset($response['status']) ? $response['status'] : 0;
+	            if($this->response->status == 0) $this->response->error = [ esc_html__('Problem with your KeyCRM integration.', 'metform') ];
+            }
+        }
+
         // ActiveCampaign email store action
 
         if (class_exists('MetForm_Pro\Core\Integrations\Email\Activecampaign\Active_Campaign')) {

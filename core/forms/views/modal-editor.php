@@ -1,3 +1,6 @@
+<?php
+use \MetForm\Core\Integrations\KeyCRM;
+?>
 <?php defined('ABSPATH') || exit; ?>
 
 <div class="attr-modal attr-fade" id="metform_form_modal" tabindex="-1" role="dialog" aria-labelledby="metform_form_modalLabel" style="display:none;">
@@ -308,8 +311,17 @@
                                     <input type="hidden" name="mf_mailchimp_list_id" class="mf-mailchimp-list-id attr-form-control" placeholder="<?php esc_html_e('Mailchimp contact list id', 'metform'); ?>">
 
                                 </div>
-
                             <?php endif ?>
+
+                            <?php //if (class_exists('\MetForm\Core\Integrations\KeyCRM')) : ?>
+                                <div class="mf-input-group">
+                                    <label class="attr-input-label">
+                                        <input type="checkbox" value="1" name="mf_keycrm" class="mf-admin-control-input mf-form-modalinput-keycrm">
+                                        <span><?php esc_html_e('KeyCRM:', 'metform'); ?></span>
+                                    </label>
+                                    <span class='mf-input-help'><?php esc_html_e('Integrate keyCRM with this form.', 'metform'); ?><strong><?php esc_html_e('The form must have at least one Phone Number widget and it should be required. ', 'metform'); ?><a target="_blank" href="<?php echo get_dashboard_url() . 'admin.php?page=metform-menu-settings#mf-keycrm_integration'; ?>"><?php esc_html_e('Configure KeyCRM.', 'metform'); ?></a></strong></span>
+                                </div>
+                            <?php //endif ?>
 
                             <?php if (class_exists('\MetForm_Pro\Core\Integrations\Google_Sheet\WF_Google_Sheet')) : ?>
                                 <div class="mf-input-group">
