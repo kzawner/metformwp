@@ -16,8 +16,8 @@ class KeyCRM
 		if (empty($settings['mf_keycrm_api_key'])
 			|| empty($settings['mf_keycrm_source_id'])
 			|| empty($settings['mf_keycrm_sku'])) {
-			$return['status'] = 1;
-			$return['msg'] = esc_html__($this->_error('Some KeyCRM settings are not configured.'), 'metform');
+			$return['status'] = 0;
+			$return['error'] = esc_html__($this->_error('Some KeyCRM settings are not configured.'), 'metform');
 			return $return;
 		}
 
@@ -46,7 +46,7 @@ class KeyCRM
 		if (!$phone) {
 			return array(
 				'status' => 0,
-				'msg' => $this->_error('Phone number not given')
+				'error' => $this->_error('Phone number not given')
 			);
 		}
 
@@ -105,6 +105,8 @@ class KeyCRM
 
 		$response = wp_remote_post(self::URL, $body);
 
+		error_log('Response: ' . json_encode($response));
+
 		$response_body = NULL;
 		if (!is_wp_error($response)) {
 			$response_body = isset($response['body']) ? json_decode($response['body']) : null;
@@ -117,7 +119,7 @@ class KeyCRM
 
 		// Happens when API returns internal server error, response code in the
 		// body is 500, though no HTTP error code returned.
-		} elseif ($response_body && $response_body->code && $response_body->code != 201) {
+		} elseif ($response_body && isset($response_body->code) && $response_body->code != 201) {
 			$error_message = "Error occured when posting data to KeyCRM: " . esc_html($response_body->message) . ", error code: " . $response_body->code;
 		}
 
