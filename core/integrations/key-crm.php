@@ -69,7 +69,7 @@ class KeyCRM
 		$referrer = wp_get_referer();
 		if ($referrer) {
 				$parsed = parse_url($referrer);
-				if ($parsed['query']) {
+				if (isset($parsed['query']) && $parsed['query']) {
 						parse_str($parsed['query'], $query);
 				}
 		}
