@@ -26,7 +26,33 @@ class KeyCRM
 		];
 
 		$source_id = isset($settings['mf_keycrm_source_id']) ? $settings['mf_keycrm_source_id'] : '';
-		$sku = isset($settings['mf_keycrm_sku']) ? $settings['mf_keycrm_sku'] : '';
+
+		$skuSetting = isset($settings['mf_keycrm_sku']) ? $settings['mf_keycrm_sku'] : '';
+		$skuPairs = array();
+		$defaultSku = NULL;
+
+		foreach(explode("\n", $skuSetting) as $pair) {
+			$pair = explode(':', $pair, 2);
+			if (count($pair) == 1) {
+				$defaultSku = trim($pair[0]);
+			} else {
+				list($pairDomain, $pairSku) = $pair;
+				$skuPairs[trim($pairDomain)] = trim($pairSku);
+			}
+		}
+
+		$sku = NULL;
+		if (isset($skuPairs[$_SERVER['SERVER_NAME']])) {
+			$sku = $skuPairs[$_SERVER['SERVER_NAME']];
+		} elseif (isset($defaultSku)) {
+			$sku = $defaultSku;
+		}
+
+		if (empty($sku)) {
+			$return['status'] = 0;
+			$return['error'] = esc_html__($this->_error('Product SKU not found.'), 'metform');
+			return $return;
+		}
 
 		$phone = null;
 		foreach (['mf-telephone', 'mf-number'] as $key) {

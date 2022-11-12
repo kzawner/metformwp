@@ -1034,7 +1034,10 @@ $settings = \MetForm\Core\Admin\Base::instance()->get_settings_option();
 
                                                         <div class="mf-setting-input-group">
                                                             <label for="attr-input-label" class="mf-setting-label mf-setting-label attr-input-label"><?php esc_html_e('Product SKU:', 'metform'); ?></label>
-                                                            <input type="text" name="mf_keycrm_sku" value="<?php echo esc_attr((isset($settings['mf_keycrm_sku'])) ? $settings['mf_keycrm_sku'] : ''); ?>" class="mf-setting-input mf-keycrm-sku attr-form-control" placeholder="<?php esc_html_e('Product SKU', 'metform'); ?>">
+                                                            <textarea rows=10 type="text" name="mf_keycrm_sku" class="mf-setting-input mf-keycrm-sku attr-form-control" placeholder="<?php esc_html_e('Product SKU', 'metform'); ?>"><?php echo esc_attr((isset($settings['mf_keycrm_sku'])) ? $settings['mf_keycrm_sku'] : ''); ?></textarea>
+                                                            <p class="description">
+                                                                <?php esc_html_e('Enter site DOMAIN:SKU per line. If domain is ommitted then SKU is used as a default.', 'metform'); ?>
+                                                            </p>
                                                         </div>
                                                     </div>
 
