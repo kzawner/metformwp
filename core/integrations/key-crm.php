@@ -2,15 +2,91 @@
 
 namespace MetForm\Core\Integrations;
 
+use WP_Error;
+
 defined('ABSPATH') || exit;
 
 class KeyCRM
 {
-	const URL = 'https://openapi.keycrm.app/v1/order';
+	const URL = 'https://openapi.keycrm.app/v1';
+	private $_settings;
 
+	/**
+		* @return array<mixed,mixed>
+		*/
+	public function _fetchProduct($sku) {
+		$response = $this->_request('offers', 'GET',
+			array(
+				'include' => 'product',
+				'sku'=> $sku,
+				'filter' => '{"sku": "' . $sku . '"}',
+			),
+		);
+		if (count($response->data) != 1)  {
+			error_log('Product not found: count($response->data) != 1');
+			return FALSE;
+		}
+		$product = $response->data[0]->product;
+		$r = array(
+      "sku" => $sku,
+      "price" => $product->max_price,
+      "name" => $product->name,
+      "picture" => $product->thumbnail_url,
+		);
+		return $r;
+	}
+
+	function _request($path, $method, $query=[], $data=NULL, &$error_message=NULL) {
+		$auth = [
+			'api_key' => $this->_settings['mf_keycrm_api_key']
+		];
+
+		$body = [
+				'method' => $method,
+				'data_format' => 'body',
+				'timeout' => 45,
+				'blocking'    => true,
+				'headers' => [
+					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . $auth['api_key'],
+					'Content-Type' => 'application/json',
+				],
+				'body' => json_encode($data),
+				'query' => $query,
+			];
+		$response = wp_remote_request(self::URL . '/' . $path
+			. ($query ? '?' . http_build_query($query) : ''),
+			$body);
+
+		error_log('Response: ' . json_encode($response));
+
+		$error_message = null;
+		if (is_wp_error($response)) {
+			$error_message = "Error occured when posting data to KeyCRM: "
+					. esc_html($response->get_error_message()) . ", error code: " . $response->get_error_code();
+
+		// Happens when API returns internal server error, response code in the
+		// body is 500, though no HTTP error code returned.
+		} elseif ($response_body && isset($response_body->code) && $response_body->code != 201) {
+			$error_message = "Error occured when posting data to KeyCRM: " . esc_html($response_body->message) . ", error code: " . $response_body->code;
+		}
+
+		if ($error_message) {
+			$this->_log($error_message);
+			return false;
+		}
+
+		$response_body = isset($response['body']) ? json_decode($response['body']) : null;
+
+		return $response_body;
+}
+
+    /**
+     * @return <missing>|array<string,mixed>
+     */
 	public function call_api($form_data, $settings)
 	{
-
+		$this->_settings = $settings;
 		$this->_log('Lead received: ' . json_encode($form_data));
 
 		if (empty($settings['mf_keycrm_api_key'])
@@ -20,10 +96,6 @@ class KeyCRM
 			$return['error'] = esc_html__($this->_error('Some KeyCRM settings are not configured.'), 'metform');
 			return $return;
 		}
-
-		$auth = [
-			'api_key' => $settings['mf_keycrm_api_key']
-		];
 
 		$source_id = isset($settings['mf_keycrm_source_id']) ? $settings['mf_keycrm_source_id'] : '';
 
@@ -51,6 +123,14 @@ class KeyCRM
 		if (empty($sku)) {
 			$return['status'] = 0;
 			$return['error'] = esc_html__($this->_error('Product SKU not found.'), 'metform');
+			return $return;
+		}
+
+		$product = $this->_fetchProduct($sku);
+
+		if (!$product) {
+			$return['status'] = 0;
+			$return['error'] = esc_html__($this->_error('Product not found.'), 'metform');
 			return $return;
 		}
 
@@ -84,10 +164,9 @@ class KeyCRM
 					"phone" => $phone,
 				],
 			"products" => [
-				[
-					"sku" => $sku,
+				array_merge($product, [
 					"quantity" => 1
-				]
+				])
 			]
 		];
 
@@ -116,38 +195,7 @@ class KeyCRM
 			}
 		}
 
-		$body = [
-				'method' => 'POST',
-				'data_format' => 'body',
-				'timeout' => 45,
-				'blocking'    => true,
-				'headers' => [
-					'Accept' => 'application/json',
-					'Authorization' => 'Bearer ' . $auth['api_key'],
-					'Content-Type' => 'application/json',
-				],
-				'body' => json_encode($data)
-			];
-
-		$response = wp_remote_post(self::URL, $body);
-
-		error_log('Response: ' . json_encode($response));
-
-		$response_body = NULL;
-		if (!is_wp_error($response)) {
-			$response_body = isset($response['body']) ? json_decode($response['body']) : null;
-		}
-
-		$error_message = null;
-		if (is_wp_error($response)) {
-			$error_message = "Error occured when posting data to KeyCRM: "
-					. esc_html($response->get_error_message()) . ", error code: " . $response->get_error_code();
-
-		// Happens when API returns internal server error, response code in the
-		// body is 500, though no HTTP error code returned.
-		} elseif ($response_body && isset($response_body->code) && $response_body->code != 201) {
-			$error_message = "Error occured when posting data to KeyCRM: " . esc_html($response_body->message) . ", error code: " . $response_body->code;
-		}
+		$response_body = $this->_request('order', 'POST', NULL, $data, $error_message);
 
 		if ($error_message) {
 			/* $return['status'] = 0; */
@@ -161,7 +209,7 @@ class KeyCRM
 		return $return;
 	}
 
-	function send_admin_email($form_data){
+	function send_admin_email($form_data) {
 			$to = get_option('admin_email');
 			if (!$to) {
 				$this->_error("Admin email is not configured.");
