@@ -51,8 +51,8 @@ class KeyCRM
 					'Authorization' => 'Bearer ' . $auth['api_key'],
 					'Content-Type' => 'application/json',
 				],
-				'body' => json_encode($data),
-				'query' => $query,
+				'body' => json_encode($data)
+				/* 'query' => $query, */
 			];
 		$response = wp_remote_request(self::URL . '/' . $path
 			. ($query ? '?' . http_build_query($query) : ''),
