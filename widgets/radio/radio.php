@@ -7,6 +7,7 @@ Class MetForm_Input_Radio extends Widget_Base{
 	use \MetForm\Traits\Common_Controls;
 	use \MetForm\Traits\Conditional_Controls;
 	use \MetForm\Widgets\Widget_Notice;
+	use \MetForm\Traits\Quiz_Control;
     
     public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
@@ -38,126 +39,142 @@ Class MetForm_Input_Radio extends Widget_Base{
 
     protected function register_controls() {
         
-        $this->start_controls_section(
-			'content_section',
-			[
-				'label' => esc_html__( 'Content', 'metform' ),
-				'tab' => Controls_Manager::TAB_CONTENT,
-			]
-		);
+        if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
 
-		$this->input_content_controls(['NO_PLACEHOLDER']); 
+			$this->start_controls_section(
+				'quiz_section',
+				[
+					'tab' => Controls_Manager::TAB_CONTENT,
+					'label' => esc_html__( 'Content', 'metform' ),
+				]
+			);
 
+			$this->quiz_controls(['radio']);
 
-		$this->add_control(
-			'mf_input_display_option',
-			[
-				'label' => esc_html__( 'Option Display : ', 'metform' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'solid',
-				'options' => [
-					'inline-block'  => esc_html__( 'Horizontal', 'metform' ),
-					'block' => esc_html__( 'Vertical', 'metform' ),
-                ],
-                'default' => 'inline-block',
-                'selectors' => [
-                    '{{WRAPPER}} .mf-radio-option' => 'display: {{VALUE}};',
-				],
-				'description' => esc_html__('Radio option display style.', 'metform'),
-			]
-        );
+		} else {
 
-        $this->add_control(
-			'mf_input_option_text_position',
-			[
-				'label' => esc_html__( 'Option Text Position : ', 'metform' ),
-				'type' => Controls_Manager::SELECT,
-				'options' => [
-					'after'  => esc_html__( 'After Radio', 'metform' ),
-					'before' => esc_html__( 'Before Radio', 'metform' ),
-                ],
-				'default' => 'after',
-				'description' => esc_html__('Where do you want to label?', 'metform'),
-			]
-        );
+			$this->start_controls_section(
+				'content_section',
+				[
+					'label' => esc_html__( 'Content', 'metform' ),
+					'tab' => Controls_Manager::TAB_CONTENT,
+				]
+			);
+	
+			$this->input_content_controls(['NO_PLACEHOLDER']); 
+	
+	
+			$this->add_control(
+				'mf_input_display_option',
+				[
+					'label' => esc_html__( 'Option Display : ', 'metform' ),
+					'type' => Controls_Manager::SELECT,
+					'default' => 'solid',
+					'options' => [
+						'inline-block'  => esc_html__( 'Horizontal', 'metform' ),
+						'block' => esc_html__( 'Vertical', 'metform' ),
+					],
+					'default' => 'inline-block',
+					'selectors' => [
+						'{{WRAPPER}} .mf-radio-option' => 'display: {{VALUE}};',
+					],
+					'description' => esc_html__('Radio option display style.', 'metform'),
+				]
+			);
+	
+			$this->add_control(
+				'mf_input_option_text_position',
+				[
+					'label' => esc_html__( 'Option Text Position : ', 'metform' ),
+					'type' => Controls_Manager::SELECT,
+					'options' => [
+						'after'  => esc_html__( 'After Radio', 'metform' ),
+						'before' => esc_html__( 'Before Radio', 'metform' ),
+					],
+					'default' => 'after',
+					'description' => esc_html__('Where do you want to label?', 'metform'),
+				]
+			);
+	
+			$input_fields = new Repeater();
+	
+			$input_fields->add_control(
+				'mf_input_option_text', [
+					'label' => esc_html__( 'Radio Option Text', 'metform' ),
+					'type' => Controls_Manager::TEXT,
+					'default' => esc_html__( 'Option Text' , 'metform' ),
+					'label_block' => true,
+					'description' => esc_html__('Select option text that will be show to user.', 'metform'),
+				]
+			);
 
-        $input_fields = new Repeater();
+			$input_fields->add_control(
+				'mf_input_option_value', [
+					'label' => esc_html__( 'Option Value', 'metform' ),
+					'type' => Controls_Manager::TEXT,
+					'default' => esc_html__( 'Option Value' , 'metform' ),
+					'label_block' => true,
+					'description' => esc_html__('Select option value that will be store/mail to desired person.', 'metform'),
+				]
+			);
 
-        $input_fields->add_control(
-            'mf_input_option_text', [
-                'label' => esc_html__( 'Radio Option Text', 'metform' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => esc_html__( 'Option Text' , 'metform' ),
-				'label_block' => true,
-				'description' => esc_html__('Select option text that will be show to user.', 'metform'),
-            ]
-        );
-        $input_fields->add_control(
-            'mf_input_option_value', [
-                'label' => esc_html__( 'Option Value', 'metform' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => esc_html__( 'Option Value' , 'metform' ),
-				'label_block' => true,
-				'description' => esc_html__('Select option value that will be store/mail to desired person.', 'metform'),
-            ]
-        );
-        $input_fields->add_control(
-            'mf_input_option_status', [
-                'label' => esc_html__( 'Option Status', 'metform' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => [
-					''  => esc_html__( 'Active', 'metform' ),
-					'disabled' => esc_html__( 'Disable', 'metform' ),
-                ],
-                'default' => '',
-				'label_block' => true,
-				'description' => esc_html__('Want to make a option? which user can see the option but can\'t select it. make it disable.', 'metform'),
-            ]
-		);
+			$input_fields->add_control(
+				'mf_input_option_status', [
+					'label' => esc_html__( 'Option Status', 'metform' ),
+					'type' => Controls_Manager::SELECT,
+					'options' => [
+						''  => esc_html__( 'Active', 'metform' ),
+						'disabled' => esc_html__( 'Disable', 'metform' ),
+					],
+					'default' => '',
+					'label_block' => true,
+					'description' => esc_html__('Want to make a option? which user can see the option but can\'t select it. make it disable.', 'metform'),
+				]
+			);
+			
+			$input_fields->add_control(
+				'mf_input_option_selected', [
+					'label' => esc_html__( 'Select it default ? ', 'metform' ),
+					'type' => Controls_Manager::SELECT,
+					'default' => '',
+					'options' => [
+						'checked' => esc_html__( 'Yes', 'metform' ),
+						''  => esc_html__( 'No', 'metform' ),
+					],
+					'description' => esc_html__('Make this option default selected', 'metform'),
+				]
+			);
+	
+			$this->add_control(
+				'mf_input_list',
+				[
+					'label' => esc_html__( 'Radio Options', 'metform' ),
+					'type' => Controls_Manager::REPEATER,
+					'fields' => $input_fields->get_controls(),
+					'default' => [
+						[
+							'mf_input_option_text' => 'Option 1',
+							'mf_input_option_value' => 'value-1',
+							'mf_input_option_status' => '',
+						],
+						[
+							'mf_input_option_text' => 'Option 2',
+							'mf_input_option_value' => 'value-2',
+							'mf_input_option_status' => '',
+						],
+						[
+							'mf_input_option_text' => 'Option 3',
+							'mf_input_option_value' => 'value-3',
+							'mf_input_option_status' => '',
+						],
+					],
+					'title_field' => '{{{ mf_input_option_text }}}',
+					'description' => esc_html__('You can add/edit here your selector options.', 'metform'),
+					'frontend_available' => true,
+				]
+			);
+		}
 		
-		$input_fields->add_control(
-            'mf_input_option_selected', [
-                'label' => esc_html__( 'Select it default ? ', 'metform' ),
-                'type' => Controls_Manager::SELECT,
-                'default' => '',
-                'options' => [
-					'checked' => esc_html__( 'Yes', 'metform' ),
-					''  => esc_html__( 'No', 'metform' ),
-                ],
-                'description' => esc_html__('Make this option default selected', 'metform'),
-            ]
-        );
-
-        $this->add_control(
-            'mf_input_list',
-            [
-                'label' => esc_html__( 'Radio Options', 'metform' ),
-                'type' => Controls_Manager::REPEATER,
-                'fields' => $input_fields->get_controls(),
-                'default' => [
-					[
-						'mf_input_option_text' => 'Option 1',
-						'mf_input_option_value' => 'value-1',
-						'mf_input_option_status' => '',
-					],
-					[
-						'mf_input_option_text' => 'Option 2',
-						'mf_input_option_value' => 'value-2',
-						'mf_input_option_status' => '',
-					],
-					[
-						'mf_input_option_text' => 'Option 3',
-						'mf_input_option_value' => 'value-3',
-						'mf_input_option_status' => '',
-					],
-                ],
-				'title_field' => '{{{ mf_input_option_text }}}',
-				'description' => esc_html__('You can add/edit here your selector options.', 'metform'),
-				'frontend_available' => true,
-            ]
-		);
-		
-
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -188,31 +205,43 @@ Class MetForm_Input_Radio extends Widget_Base{
 			$this->input_conditional_control();
 		}
 
-        $this->start_controls_section(
-			'label_section',
-			[
-				'label' => esc_html__( 'Input Label', 'metform' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-				'conditions' => [
-					'relation' => 'or',
-					'terms' => [
-						[
-							'name' => 'mf_input_label_status',
-							'operator' => '===',
-							'value' => 'yes',
-						],
-						[
-							'name' => 'mf_input_required',
-							'operator' => '===',
-							'value' => 'yes',
+		if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+				]
+			);
+
+		} else {
+
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+					'conditions' => [
+						'relation' => 'or',
+						'terms' => [
+							[
+								'name' => 'mf_input_label_status',
+								'operator' => '===',
+								'value' => 'yes',
+							],
+							[
+								'name' => 'mf_input_required',
+								'operator' => '===',
+								'value' => 'yes',
+							],
 						],
 					],
-                ],
-			]
-		);
+				]
+			);
+		}
 
 		$this->input_label_controls(['VERTICAL_POSITION']);
-
 
         $this->end_controls_section();
 
@@ -412,7 +441,21 @@ Class MetForm_Input_Radio extends Widget_Base{
 			'required'		=> isset($mf_input_required) && $mf_input_required == 'yes' ? true : false,
 		];
 
-		?>
+		if(!$is_edit_mode && isset($mf_quiz_point) && class_exists('\MetForm_Pro\Base\Package')){
+			$answer_list = isset($mf_input_list) ? array_values(array_filter($mf_input_list, function($item){
+				if(isset($item['mf_quiz_question_answer']) && !empty($item['mf_quiz_question_answer'])){
+					return $item["mf_input_option_value"];
+				}
+				return false;
+			})) : array();
+
+			$answers = count($answer_list) > 0 ? array_column($answer_list, 'mf_input_option_value') : array();
+			$answer = count($answers) > 0 ? $answers[count($answers) - 1] : "";
+			$quizData = array("answer" => $answer, "correctPoint" => esc_attr($mf_quiz_point ?? 0), "incorrectPoint" => esc_attr($mf_quiz_negative_point ?? 0));
+
+ 		}
+
+		?>	
 
 		<div class="mf-input-wrapper">
 			<?php if ( 'yes' == $mf_input_label_status ): ?>
@@ -445,6 +488,10 @@ Class MetForm_Input_Radio extends Widget_Base{
 									onChange=${ parent.handleChange }
 									aria-invalid=${validation.errors['<?php echo esc_attr($mf_input_name); ?>'] ? 'true' : 'false'}
 									ref=${el =>{
+										<?php if ( isset($quizData) && ($quizData['correctPoint'] != 0 || $quizData['incorrectPoint'] != 0) ) { ?>
+										!parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] && (
+										parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] = <?php echo json_encode($quizData); ?>)
+										<?php } ?>
 										parent.handleRadioDefault(el);
 										parent.activateValidation(<?php echo json_encode($configData); ?>, el)
 									}}

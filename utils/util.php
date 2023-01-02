@@ -285,6 +285,8 @@ class Util{
 		$form_settings = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
 
 		$site_key = !empty($form_settings['mf_recaptcha_site_key']) ?  $form_settings['mf_recaptcha_site_key'] : '';
+
+		$form_type = isset($form_settings['form_type']) ? $form_settings['form_type'] : 'contact_form';
 		if(!empty($form_settings['mf_recaptcha_version'])) {
 			if($form_settings['mf_recaptcha_version'] == 'recaptcha-v3') {
 				$site_key = $form_settings['mf_recaptcha_site_key_v3'];
@@ -301,7 +303,9 @@ class Util{
 			data-action="<?php echo esc_attr($rest_url. "metform/v1/entries/insert/" .$form_id); ?>"
 			data-wp-nonce="<?php echo wp_create_nonce( 'wp_rest' ); ?>"
 			data-form-nonce="<?php echo wp_create_nonce( 'form_nonce' ); ?>"
+			data-quiz-summery = "<?php echo (!empty($form_settings['quiz_summery']) && class_exists('\MetForm_Pro\Base\Package')) ? "true" : "false"; ?>"
 			data-save-progress = "<?php echo (isset($form_settings['mf_save_progress']) && $form_settings['mf_save_progress'] && class_exists('\MetForm_Pro\Base\Package')) ? "true" : "false"; ?>"
+			data-form-type="<?php echo esc_attr($form_type); ?>"
 			data-stop-vertical-effect="<?php echo isset($form_settings['mf_stop_vertical_scrolling']) ? $form_settings['mf_stop_vertical_scrolling'] : '' ?>"
 			></div>
 

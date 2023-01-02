@@ -433,8 +433,6 @@ $settings = \MetForm\Core\Admin\Base::instance()->get_settings_option();
                                   
                                   
                                         </div>
-
-
                                 </div>
                             </div>
 

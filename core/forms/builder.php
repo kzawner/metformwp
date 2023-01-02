@@ -39,6 +39,13 @@ Class Builder{
         $default_settings['store_entries'] = '1';
         $default_settings['form_title'] = $defaults['post_title'];
 
+        if(isset($data['form_type']) && !empty($data['form_type'])){
+            $default_settings['form_type'] = $data['form_type'];
+
+            // Unset form type from $data array
+            unset($data['form_type']);
+        }
+
         update_post_meta( $builder_form_id, '_wp_page_template', 'elementor_canvas' );
         update_post_meta( $builder_form_id, \MetForm\Core\Forms\Base::instance()->form->get_key_form_settings(), $default_settings );
         update_post_meta( $builder_form_id, '_elementor_edit_mode', 'builder');

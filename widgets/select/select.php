@@ -7,6 +7,7 @@ Class MetForm_Input_Select extends Widget_Base{
     use \MetForm\Traits\Common_Controls;
     use \MetForm\Traits\Conditional_Controls;
     use \MetForm\Widgets\Widget_Notice;
+    use \MetForm\Traits\Quiz_Control;
 
     public function get_name() {
 		return 'mf-select';
@@ -29,153 +30,168 @@ Class MetForm_Input_Select extends Widget_Base{
     }
 
     protected function register_controls() {
-        
-        $this->start_controls_section(
-			'content_section',
-			[
-				'label' => esc_html__( 'Content', 'metform' ),
-				'tab' => Controls_Manager::TAB_CONTENT,
-			]
-        );
 
-        $this->input_content_controls();
+		if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+			$this->start_controls_section(
+				'quiz_section',
+				[
+					'tab' => Controls_Manager::TAB_CONTENT,
+					'label' => esc_html__( 'Content', 'metform' ),
+				]
+			);
 
-        $input_fields = new Repeater();
+			$this->quiz_controls(['select']);
 
-        $input_fields->add_control(
-            'mf_input_option_text', [
-                'label' => esc_html__( 'Input Field Text', 'metform' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => esc_html__( 'Input Text' , 'metform' ),
-                'label_block' => true,
-                'description' => esc_html__('Select list text that will be show to user.', 'metform'),
-            ]
-        );
-        $input_fields->add_control(
-            'mf_input_option_value', [
-                'label' => esc_html__( 'Input Field Value', 'metform' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => esc_html__( 'Input Value' , 'metform' ),
-                'label_block' => true,
-                'description' => esc_html__('Select list value that will be store/mail to desired person.', 'metform'),
-            ]
-        );
+		} else {
+			$this->start_controls_section(
+				'content_section',
+				[
+					'label' => esc_html__( 'Content', 'metform' ),
+					'tab' => Controls_Manager::TAB_CONTENT,
+				]
+			);
 
-        $input_fields->add_control(
-            'mf_input_option_status', [
-                'label' => esc_html__( 'Status', 'metform' ),
-                'type' => Controls_Manager::SELECT,
-                'default' => '',
-                'options' => [
-					'' => esc_html__( 'Enable', 'metform' ),
-					'disabled'  => esc_html__( 'Disable', 'metform' ),
-                ],
-                'description' => esc_html__('Want to make a option? which user can see the option but can\'t select it. make it disable.', 'metform'),
-            ]
-        );
+			$this->input_content_controls();
 
-        $input_fields->add_control(
-            'mf_input_option_selected', [
-                'label' => esc_html__( 'Select it default ? ', 'metform' ),
-                'type' => Controls_Manager::SELECT,
-                'default' => '',
-                'options' => [
-					'selected' => esc_html__( 'Yes', 'metform' ),
-					''  => esc_html__( 'No', 'metform' ),
-                ],
-                'description' => esc_html__('Make this option default selected', 'metform'),
-            ]
-        );
+			$input_fields = new Repeater();
 
-        $this->add_control(
-            'mf_input_data_type',
-            [
-                'label'     => esc_html__('Data Type', 'metform'),
-                'type'      => Controls_Manager::SELECT,
-                'options'   => [
-                    'custom'	=> esc_html__('Custom', 'metform'),
-                    'csv'		=> esc_html__('CSV File', 'metform')
-                ],
-                'default'   => 'custom'
-            ]
-		);
+			$input_fields->add_control(
+				'mf_input_option_text', [
+					'label' => esc_html__( 'Input Field Text', 'metform' ),
+					'type' => Controls_Manager::TEXT,
+					'default' => esc_html__( 'Input Text' , 'metform' ),
+					'label_block' => true,
+					'description' => esc_html__('Select list text that will be show to user.', 'metform'),
+				]
+			);
 
-        $this->add_control(
-            'mf_input_list',
-            [
-                'label' => esc_html__( 'Dropdown List', 'metform' ),
-                'type' => Controls_Manager::REPEATER,
-                'fields' => $input_fields->get_controls(),
-                'title_field' => '{{{ mf_input_option_text }}}',
-                'default' => [
-                    [
-                        'mf_input_option_text' => 'Item 1',
-                        'mf_input_option_value' => 'value-1',
-                        'mf_input_option_status' => '',
-                    ],
-                    [
-                        'mf_input_option_text' => 'Item 2',
-                        'mf_input_option_value' => 'value-2',
-                        'mf_input_option_status' => '',
-                    ],
-                    [
-                        'mf_input_option_text' => 'Item 3',
-                        'mf_input_option_value' => 'value-3',
-                        'mf_input_option_status' => '',
-                    ],
-                ],
-                'description' => esc_html__('You can add/edit here your selector options.', 'metform'),
-                'condition' => [
-                    'mf_input_data_type'   => 'custom',
-                ],
-			 'frontend_available' => true
-            ]
-        );
+			$input_fields->add_control(
+				'mf_input_option_value', [
+					'label' => esc_html__( 'Input Field Value', 'metform' ),
+					'type' => Controls_Manager::TEXT,
+					'default' => esc_html__( 'Input Value' , 'metform' ),
+					'label_block' => true,
+					'description' => esc_html__('Select list value that will be store/mail to desired person.', 'metform'),
+				]
+			);
 
-        $this->add_control(
-            'mf_input_csv_type',
-            [
-                'label'     => esc_html__('File Type', 'metform'),
-                'type'      => Controls_Manager::SELECT,
-                'options'   => [
-                    'file'		=> esc_html__('Upload File', 'metform'),
-                    'url'		=> esc_html__('Remote File URL', 'metform'),
-                ],
-                'default'   => 'file',
-                'condition' => [
-                    'mf_input_data_type'   => 'csv',
-                ],
-            ]
-		);
+			$input_fields->add_control(
+				'mf_input_option_status', [
+					'label' => esc_html__( 'Status', 'metform' ),
+					'type' => Controls_Manager::SELECT,
+					'default' => '',
+					'options' => [
+						'' => esc_html__( 'Enable', 'metform' ),
+						'disabled'  => esc_html__( 'Disable', 'metform' ),
+					],
+					'description' => esc_html__('Want to make a option? which user can see the option but can\'t select it. make it disable.', 'metform'),
+				]
+			);
 
-        $this->add_control(
-            'mf_input_upload_csv',
-            [
-                'label'			=> esc_html__('Upload CSV File', 'metform'),
-                'description'	=> esc_html__('CSV file must have format like: Label, Value, true/false(optional)', 'metform'),
-                'type'      	=> Controls_Manager::MEDIA,
-                'media_type'	=> [],
-                'condition'		=> [
-                    'mf_input_data_type'	=> 'csv',
-                    'mf_input_csv_type'		=> 'file',
-                ]
-            ]
-		);
+			$input_fields->add_control(
+				'mf_input_option_selected', [
+					'label' => esc_html__( 'Select it default ? ', 'metform' ),
+					'type' => Controls_Manager::SELECT,
+					'default' => '',
+					'options' => [
+						'selected' => esc_html__( 'Yes', 'metform' ),
+						''  => esc_html__( 'No', 'metform' ),
+					],
+					'description' => esc_html__('Make this option default selected', 'metform'),
+				]
+			);
 
-        $this->add_control(
-            'mf_input_csv_url',
-            [
-                'label'         => esc_html__('Enter a CSV File URL', 'metform'),
-                'description'	=> esc_html__('CSV file must have format like: Label, Value, true/false(optional)', 'metform'),
-                'type'          => Controls_Manager::URL,
-                'show_external' => false,
-                'label_block'   => true,
-                'condition' => [
-                    'mf_input_data_type'	=> 'csv',
-                    'mf_input_csv_type'		=> 'url'
-                ]
-            ]
-        );
+			$this->add_control(
+				'mf_input_data_type',
+				[
+					'label'     => esc_html__('Data Type', 'metform'),
+					'type'      => Controls_Manager::SELECT,
+					'options'   => [
+						'custom'	=> esc_html__('Custom', 'metform'),
+						'csv'		=> esc_html__('CSV File', 'metform')
+					],
+					'default'   => 'custom'
+				]
+			);
+			
+			$this->add_control(
+				'mf_input_list',
+				[
+					'label' => esc_html__( 'Dropdown List', 'metform' ),
+					'type' => Controls_Manager::REPEATER,
+					'fields' => $input_fields->get_controls(),
+					'title_field' => '{{{ mf_input_option_text }}}',
+					'default' => [
+						[
+							'mf_input_option_text' => 'Item 1',
+							'mf_input_option_value' => 'value-1',
+							'mf_input_option_status' => '',
+						],
+						[
+							'mf_input_option_text' => 'Item 2',
+							'mf_input_option_value' => 'value-2',
+							'mf_input_option_status' => '',
+						],
+						[
+							'mf_input_option_text' => 'Item 3',
+							'mf_input_option_value' => 'value-3',
+							'mf_input_option_status' => '',
+						],
+					],
+					'description' => esc_html__('You can add/edit here your selector options.', 'metform'),
+					'condition' => [
+						'mf_input_data_type'   => 'custom',
+					],
+				'frontend_available' => true
+				]
+			);
+
+			$this->add_control(
+				'mf_input_csv_type',
+				[
+					'label'     => esc_html__('File Type', 'metform'),
+					'type'      => Controls_Manager::SELECT,
+					'options'   => [
+						'file'		=> esc_html__('Upload File', 'metform'),
+						'url'		=> esc_html__('Remote File URL', 'metform'),
+					],
+					'default'   => 'file',
+					'condition' => [
+						'mf_input_data_type'   => 'csv',
+					],
+				]
+			);
+
+			$this->add_control(
+				'mf_input_upload_csv',
+				[
+					'label'			=> esc_html__('Upload CSV File', 'metform'),
+					'description'	=> esc_html__('CSV file must have format like: Label, Value, true/false(optional)', 'metform'),
+					'type'      	=> Controls_Manager::MEDIA,
+					'media_type'	=> [],
+					'condition'		=> [
+						'mf_input_data_type'	=> 'csv',
+						'mf_input_csv_type'		=> 'file',
+					]
+				]
+			);
+
+			$this->add_control(
+				'mf_input_csv_url',
+				[
+					'label'         => esc_html__('Enter a CSV File URL', 'metform'),
+					'description'	=> esc_html__('CSV file must have format like: Label, Value, true/false(optional)', 'metform'),
+					'type'          => Controls_Manager::URL,
+					'show_external' => false,
+					'label_block'   => true,
+					'condition' => [
+						'mf_input_data_type'	=> 'csv',
+						'mf_input_csv_type'		=> 'url'
+					]
+				]
+			);
+
+		}
 
         $this->end_controls_section();
 
@@ -206,28 +222,39 @@ Class MetForm_Input_Select extends Widget_Base{
 			$this->input_conditional_control();
 		}
 
-        $this->start_controls_section(
-			'label_section',
-			[
-				'label' => esc_html__( 'Label', 'metform' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-                'conditions' => [
-					'relation' => 'or',
-					'terms' => [
-						[
-							'name' => 'mf_input_label_status',
-							'operator' => '===',
-							'value' => 'yes',
-						],
-						[
-							'name' => 'mf_input_required',
-							'operator' => '===',
-							'value' => 'yes',
+        if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+				]
+			);
+
+		} else {
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+					'conditions' => [
+						'relation' => 'or',
+						'terms' => [
+							[
+								'name' => 'mf_input_label_status',
+								'operator' => '===',
+								'value' => 'yes',
+							],
+							[
+								'name' => 'mf_input_required',
+								'operator' => '===',
+								'value' => 'yes',
+							],
 						],
 					],
-                ],
-			]
-        );
+				]
+			);
+		}
 
 		$this->input_label_controls();
 
@@ -551,6 +578,20 @@ Class MetForm_Input_Select extends Widget_Base{
             'required'		=> isset($mf_input_required) && $mf_input_required == 'yes' ? true : false,
         ];
 
+	   if(!$is_edit_mode && isset($mf_quiz_point) && class_exists('\MetForm_Pro\Base\Package')){
+		$answer_list = isset($mf_input_list) ? array_values(array_filter($mf_input_list, function($item){
+			if(isset($item['mf_quiz_question_answer']) && !empty($item['mf_quiz_question_answer'])){
+				return $item["mf_input_option_value"];
+			}
+			return false;
+		})) : array();
+
+		$answers = count($answer_list) > 0 ? array_column($answer_list, 'mf_input_option_value') : array();
+		$answer = count($answers) > 0 ? $answers[count($answers) - 1] : "";
+		$quizData = array("answer" => $answer, "correctPoint" => esc_attr($mf_quiz_point ?? 0), "incorrectPoint" => esc_attr($mf_quiz_negative_point ?? 0));
+	 }
+
+
         $mf_default_input_list = array();
         $mf_input_list_array = array();
 
@@ -612,8 +653,12 @@ Class MetForm_Input_Select extends Widget_Base{
                 isSearchable=${false}
                 options=${<?php echo json_encode($mf_input_list_array); ?>}
                 value=${parent.getValue("<?php echo esc_attr($mf_input_name); ?>") ? <?php echo json_encode($mf_input_list); ?>.filter(item => item.value === parent.getValue("<?php echo esc_attr($mf_input_name); ?>"))[0] : <?php echo json_encode( $mf_default_input_list ); ?>}
-                onChange=${parent.handleSelect}
+                onChange=${(e)=> parent.handleSelect(e, "<?php echo esc_attr( $mf_input_name ); ?>")}
                 ref=${() => {
+				<?php if ( isset($quizData) && ($quizData['correctPoint'] != 0 || $quizData['incorrectPoint'] != 0) ) { ?>
+					!parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] && (
+					parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] = <?php echo json_encode($quizData); ?>)
+				<?php } ?>
                     register({ name: "<?php echo esc_attr($mf_input_name); ?>" }, parent.activateValidation(<?php echo json_encode($configData); ?>));
                     if ( parent.getValue("<?php echo esc_attr($mf_input_name); ?>") === '' && <?php echo (count($mf_default_input_list) > 0) ? 'true' : 'false'; ?> ) {
 				    parent.setValue( '<?php echo esc_attr($mf_input_name); ?>', '<?php echo (count($mf_default_input_list) > 0) ? esc_attr( $mf_default_input_list["value"] ) : ''; ?>', true );

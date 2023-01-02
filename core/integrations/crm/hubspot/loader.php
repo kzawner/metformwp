@@ -138,7 +138,7 @@ class Integration
             <div class="mf-hubspot-settings-contents">
                 <p><?php esc_html_e('HubSpot is an all-in-one CRM and marketing platform that helps turn your website visitors into leads, leads into customers, and customers into raving fans.', 'metform'); ?></p>
                 <p><?php esc_html_e('With MetForm, you can sync your form submissions seamlessly to HubSpot to build lists, email marketing campaigns and so much more.', 'metform'); ?></p>
-                <p><?php esc_html_e('If you don\'t already have a HubSpot account, you can', 'metform'); ?> <a href="https://app.hubspot.com/signup-hubspot/marketing?utm_source=Metform-wordpress&utm_medium=referral" target="_blank"><?php esc_html_e('sign up for a free HubSpot account here.', 'metform'); ?></a></p>
+                <p><?php esc_html_e('If you don\'t already have a HubSpot account, you can', 'metform'); ?> <a href="https://app.hubspot.com/signup-hubspot/marketing?utm_source=MetForm&utm_medium=Forms&utm_campaign=Plugin" target="_blank"><?php esc_html_e('sign up for a free HubSpot account here.', 'metform'); ?></a></p>
                 <a href="<?php echo esc_url('https://api.wpmet.com/public/hubspot-auth/?redirect_url=' . $current_page . '&section_id=' . $section_id); ?>" class="mf-admin-setting-btn fatty"><?php esc_html_e('Click Here To Connect Your HubSpot Account', 'metform'); ?></a>
             </div>
 <?php }

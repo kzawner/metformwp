@@ -7,6 +7,7 @@ Class MetForm_Input_Text extends Widget_Base{
 	use \MetForm\Traits\Common_Controls;
 	use \MetForm\Traits\Conditional_Controls;
 	use \MetForm\Widgets\Widget_Notice;
+	use \MetForm\Traits\Quiz_Control;
 
     public function get_name() {
 		return 'mf-text';
@@ -30,15 +31,20 @@ Class MetForm_Input_Text extends Widget_Base{
 
     protected function register_controls() {
 
-        $this->start_controls_section(
-			'content_section',
+
+		$this->start_controls_section(
+			'quiz_section',
 			[
-				'label' => esc_html__( 'Content', 'metform' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
+				'label' => esc_html__( 'Content', 'metform' ),
 			]
 		);
 
-		$this->input_content_controls();
+		if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+			$this->quiz_controls(['text']);
+		} else {
+			$this->input_content_controls();
+		}
 
         $this->end_controls_section();
 
@@ -60,28 +66,41 @@ Class MetForm_Input_Text extends Widget_Base{
 			$this->input_conditional_control();
 		}
 
-        $this->start_controls_section(
-			'label_section',
-			[
-				'label' => esc_html__( 'Label', 'metform' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-				'conditions' => [
-					'relation' => 'or',
-					'terms' => [
-						[
-							'name' => 'mf_input_label_status',
-							'operator' => '===',
-							'value' => 'yes',
-						],
-						[
-							'name' => 'mf_input_required',
-							'operator' => '===',
-							'value' => 'yes',
+		if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+				]
+			);
+
+		} else {
+			
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+					'conditions' => [
+						'relation' => 'or',
+						'terms' => [
+							[
+								'name' => 'mf_input_label_status',
+								'operator' => '===',
+								'value' => 'yes',
+							],
+							[
+								'name' => 'mf_input_required',
+								'operator' => '===',
+								'value' => 'yes',
+							],
 						],
 					],
-                ],
-			]
-        );
+				]
+			);
+		}
 
 		$this->input_label_controls();
 
@@ -147,7 +166,12 @@ Class MetForm_Input_Text extends Widget_Base{
 			'expression'	=> isset($mf_input_validation_expression) && !empty(trim($mf_input_validation_expression)) ? trim($mf_input_validation_expression) : 'null'
 		];
 
+		if(!$is_edit_mode && isset($mf_quiz_point) && class_exists('\MetForm_Pro\Base\Package')){
+		$answers = isset($mf_quiz_question_answer) ? $mf_quiz_question_answer : '';
+		$quizData = array("answer" => $answers, "correctPoint" => esc_attr($mf_quiz_point ?? 0), "incorrectPoint" => esc_attr($mf_quiz_negative_point ?? 0));
+		}
 		?>
+
 		<div class="mf-input-wrapper">
 			<?php if ( 'yes' == $mf_input_label_status ): ?>
 				<label class="mf-input-label" for="mf-input-text-<?php echo esc_attr( $this->get_id() ); ?>">
@@ -165,7 +189,13 @@ Class MetForm_Input_Text extends Widget_Base{
 				<?php if ( !$is_edit_mode ): ?>
 					onInput=${parent.handleChange}
 					aria-invalid=${validation.errors['<?php echo esc_attr($mf_input_name); ?>'] ? 'true' : 'false'}
-					ref=${el => parent.activateValidation(<?php echo json_encode($configData); ?>, el)}
+					ref=${el =>{
+						<?php if ( isset($quizData) && ($quizData['correctPoint'] != 0 || $quizData['incorrectPoint'] != 0) ) { ?>
+						!parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] && (
+						parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] = <?php echo json_encode($quizData) ?>)
+						<?php } ?>
+						parent.activateValidation(<?php echo json_encode($configData); ?>, el)
+					}}
 				<?php endif; ?>
 				/>
 

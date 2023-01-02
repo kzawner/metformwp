@@ -25,8 +25,14 @@ class Cpt extends \MetForm\Base\Cpt
             'form_title' => [
                 'name' => 'form_title',
             ],
+            'form_type' => [
+                'name' => 'form_type',
+            ],
             'success_message' => [
                 'name' => 'success_message',
+            ],
+            'quiz_summery' => [
+                'name' => 'quiz_summery',
             ],
             'store_entries' => [
                 'name' => 'store_entries',

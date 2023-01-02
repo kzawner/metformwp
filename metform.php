@@ -3,7 +3,7 @@
  * Plugin Name: MetForm
  * Plugin URI:  http://products.wpmet.com/metform/
  * Description: Most flexible and design friendly form builder for Elementor
- * Version: 2.2.1
+ * Version: 3.0.1
  * Author: Wpmet
  * Author URI:  https://wpmet.com
  * Text Domain: metform
@@ -18,7 +18,7 @@ require_once plugin_dir_path( __FILE__ ) . 'utils/notice/notice.php';
 require_once plugin_dir_path( __FILE__ ) . 'utils/banner/banner.php';
 
 require_once plugin_dir_path( __FILE__ ) . 'utils/stories/stories.php';
-require_once plugin_dir_path( __FILE__ ) . 'utils/pro-awareness/pro-awareness.php';
+// require_once plugin_dir_path( __FILE__ ) . 'utils/pro-awareness/pro-awareness.php';
 require_once plugin_dir_path( __FILE__ ) . 'utils/rating/rating.php';
 
 require plugin_dir_path( __FILE__ ) .'autoloader.php';
@@ -27,7 +27,7 @@ require plugin_dir_path( __FILE__ ) .'plugin.php';
 // init notice class
 \Oxaim\Libs\Notice::init();
 // \Wpmet\Rating\Rating::init();
-\Wpmet\Libs\Pro_Awareness::init();
+// \Wpmet\Libs\Pro_Awareness::init();
 
 
 register_activation_hook( __FILE__, [ MetForm\Plugin::instance(), 'flush_rewrites'] );
@@ -37,6 +37,7 @@ add_action( 'plugins_loaded', function(){
     MetForm\Plugin::instance()->init();
     do_action('metform/after_load');
 }, 111);
+
 
 // Added Date: 20/07/2022
 add_action('plugins_loaded', function(){

@@ -31,6 +31,10 @@ class Base{
         // Initilizating control classes
         $formpicker_utils = new Form_Picker_Utils();
         $formpicker_utils->init();
+
+        // Admin Add New Form
+        $admin_add_new_form_button = new Admin_Add_New_Form();
+        $admin_add_new_form_button->init();
     }
 
     private function include_files(){
