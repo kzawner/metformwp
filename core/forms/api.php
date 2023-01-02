@@ -26,7 +26,7 @@ class Api extends \MetForm\Base\Api
 
         // Push the for type settings inside the form setting array
         $existing_form_setting = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
-        
+
         if(isset($existing_form_setting['form_type'])){
             $form_setting['form_type'] = $existing_form_setting['form_type'];
         }
@@ -48,9 +48,23 @@ class Api extends \MetForm\Base\Api
             update_option('mf_hubspot_form_portalId_' . $form_id, $form_setting['mf_hubspot_form_portalId']);
             update_option('mf_hubspot_form_data_' . $form_id, $fields);
         }
-
-
         
+        if( !empty( $form_setting['mf_mail_aweber'] ) ){
+            $fields = [];
+            foreach ($form_setting as $key => $value) {
+                
+                if (strpos($key, 'mf_aweber_custom_field_name_') !== false) {
+
+                    $label_key = str_replace('mf_aweber_custom_field_name_', '', $key);
+                    array_push($fields, [$key => [
+                        'field_key' => $value,
+                        'custom_field_key' => $form_setting['mf_aweber_custom_field_label_' . $label_key]
+                    ]]);
+                }
+            }
+
+            update_option('mf_aweber_form_data_' . $form_id, $fields);
+        }     
 
         /**
          * Mailster form settings

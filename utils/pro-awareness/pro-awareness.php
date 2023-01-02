@@ -30,7 +30,7 @@ if(!class_exists('\Wpmet\Libs\Pro_Awareness')) :
 		private $products = [];
 
 
-		protected $script_version = '1.0.3';
+		protected $script_version = '1.2.0';
 
 		/**
 		 * Get version of this script

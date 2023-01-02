@@ -255,12 +255,6 @@ use \MetForm\Core\Integrations\KeyCRM;
 
                                     <div id="mf-hubsopt-fileds"></div>
 
-                                    <!-- <label class="attr-input-label">
-                                        <input type="checkbox" value="1" name="mf_hubspot" class="mf-admin-control-input mf-hubsopt">
-                                        <span><?php // esc_html_e('Add Entries To Contact:', 'metform'); 
-                                                ?></span>
-                                    </label> -->
-
                                 </div>
 
 
@@ -390,13 +384,15 @@ use \MetForm\Core\Integrations\KeyCRM;
                                     <label for="attr-input-label" class="attr-input-label"><?php esc_html_e('Aweber List ID:', 'metform'); ?></label>
 
                                     <select name="mf_aweber_list_id" class="mf-aweber-list-id attr-form-control">
-                                        <option value=""> None</option>
+                                        <option class="mf_aweber_default_option" value=""> None</option>
                                     </select>
 
                                     <span class='mf-input-help'><?php esc_html_e('Enter here aweber list id. ', 'metform'); ?>
                                         <a id="met_form_aweber_get_list" href="#"><?php esc_html_e('Refresh List', 'metform'); ?></a>
                                         <span id="mf_aweber_info"></span>
                                     </span>
+
+                                    <div id="mf-aweber-fields"></div>
                                 </div>
 
 
