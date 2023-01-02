@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: MetForm 3.0.1\n"
+"Project-Id-Version: MetForm 3.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/metform\n"
-"POT-Creation-Date: 2022-10-27 11:46:12+00:00\n"
+"POT-Creation-Date: 2022-12-20 10:21:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1101,7 +1101,7 @@ msgstr ""
 msgid "You must enable \"store entries\" for integrating payment method."
 msgstr ""
 
-#: core/forms/api.php:303
+#: core/forms/api.php:317
 msgid "Not Authorized"
 msgstr ""
 
@@ -1331,7 +1331,7 @@ msgstr ""
 msgid "Want to send a submission copy to user by email? Active this one."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:144 core/forms/views/modal-editor.php:568
+#: core/forms/views/modal-editor.php:144 core/forms/views/modal-editor.php:564
 msgid "The form must have at least one Email widget and it should be required."
 msgstr ""
 
@@ -1457,312 +1457,312 @@ msgstr ""
 msgid "Fetch HubSpot Forms"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:269
+#: core/forms/views/modal-editor.php:263
 msgid "HubSpot Contact:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:277
+#: core/forms/views/modal-editor.php:271
 msgid "REST API:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:279
+#: core/forms/views/modal-editor.php:273
 msgid "Send entry data to third party api/webhook"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:284
+#: core/forms/views/modal-editor.php:278
 msgid "URL/Webhook:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:285
+#: core/forms/views/modal-editor.php:279
 msgid "Rest api url/webhook"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:286
+#: core/forms/views/modal-editor.php:280
 msgid "Enter rest api url/webhook here."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:291
+#: core/forms/views/modal-editor.php:285
 msgid "POST"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:292
+#: core/forms/views/modal-editor.php:286
 msgid "GET"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:305
+#: core/forms/views/modal-editor.php:299
 msgid "Mail Chimp:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:307
+#: core/forms/views/modal-editor.php:301
 msgid "Integrate mailchimp with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:307 core/forms/views/modal-editor.php:345
-#: core/forms/views/modal-editor.php:374 core/forms/views/modal-editor.php:396
-#: core/forms/views/modal-editor.php:426 core/forms/views/modal-editor.php:461
-#: core/forms/views/modal-editor.php:528
+#: core/forms/views/modal-editor.php:301 core/forms/views/modal-editor.php:339
+#: core/forms/views/modal-editor.php:368 core/forms/views/modal-editor.php:392
+#: core/forms/views/modal-editor.php:422 core/forms/views/modal-editor.php:457
+#: core/forms/views/modal-editor.php:524
 msgid "The form must have at least one Email widget and it should be required. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:307
+#: core/forms/views/modal-editor.php:301
 msgid "Configure Mail Chimp."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:311
+#: core/forms/views/modal-editor.php:305
 msgid "MailChimp List ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:318
+#: core/forms/views/modal-editor.php:312
 msgid "Mailchimp contact list id"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:328
+#: core/forms/views/modal-editor.php:322
 msgid "Google Sheet:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:330
+#: core/forms/views/modal-editor.php:324
 msgid "Integrate google sheet with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:330
+#: core/forms/views/modal-editor.php:324
 msgid "Configure Google Sheet."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:341
+#: core/forms/views/modal-editor.php:335
 msgid "MailPoet:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:344
+#: core/forms/views/modal-editor.php:338
 msgid "Integrate MailPoet with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:347
+#: core/forms/views/modal-editor.php:341
 msgid "Configure MailPoet."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:354
+#: core/forms/views/modal-editor.php:348
 msgid "MailPoet List ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:360
+#: core/forms/views/modal-editor.php:354
 msgid "Enter here MailPoet list id. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:361 core/forms/views/modal-editor.php:385
-#: core/forms/views/modal-editor.php:408 core/forms/views/modal-editor.php:483
-#: core/forms/views/modal-editor.php:507
+#: core/forms/views/modal-editor.php:355 core/forms/views/modal-editor.php:379
+#: core/forms/views/modal-editor.php:404 core/forms/views/modal-editor.php:479
+#: core/forms/views/modal-editor.php:503
 msgid "Refresh List"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:372
+#: core/forms/views/modal-editor.php:366
 msgid "Aweber:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:374
+#: core/forms/views/modal-editor.php:368
 msgid "Integrate aweber with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:374
+#: core/forms/views/modal-editor.php:368
 msgid "Configure aweber."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:378
+#: core/forms/views/modal-editor.php:372
 msgid "Aweber List ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:384
+#: core/forms/views/modal-editor.php:378
 msgid "Enter here aweber list id. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:394
+#: core/forms/views/modal-editor.php:390
 msgid "ConvertKit:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:396
+#: core/forms/views/modal-editor.php:392
 msgid "Integrate convertKit with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:396
+#: core/forms/views/modal-editor.php:392
 msgid "Configure ConvertKit."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:400
+#: core/forms/views/modal-editor.php:396
 msgid "ConvertKit Forms ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:406
+#: core/forms/views/modal-editor.php:402
 msgid "Enter here ConvertKit form id. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:423
+#: core/forms/views/modal-editor.php:419
 msgid "GetResponse:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:426
+#: core/forms/views/modal-editor.php:422
 msgid "Integrate GetResponse with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:426
+#: core/forms/views/modal-editor.php:422
 msgid "Configure GetResponse."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:432
+#: core/forms/views/modal-editor.php:428
 msgid "GetResponse List ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:440
+#: core/forms/views/modal-editor.php:436
 msgid "GetResponse contact list id"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:441
+#: core/forms/views/modal-editor.php:437
 msgid "Enter here GetResponse list id. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:458
+#: core/forms/views/modal-editor.php:454
 msgid "ActiveCampaign:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:461
+#: core/forms/views/modal-editor.php:457
 msgid "Integrate ActiveCampaign with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:461
+#: core/forms/views/modal-editor.php:457
 msgid "Configure ActiveCampaign."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:466
+#: core/forms/views/modal-editor.php:462
 msgid "Active campaign List ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:482
+#: core/forms/views/modal-editor.php:478
 msgid "Enter here list id. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:490
+#: core/forms/views/modal-editor.php:486
 msgid "Active campaign Tag ID:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:506
+#: core/forms/views/modal-editor.php:502
 msgid "Enter here tag id. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:525
+#: core/forms/views/modal-editor.php:521
 msgid "Mailster:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:528
+#: core/forms/views/modal-editor.php:524
 msgid "Integrate Mailster with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:534
+#: core/forms/views/modal-editor.php:530
 msgid "Mailster Forms"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:566
+#: core/forms/views/modal-editor.php:562
 msgid "Zapier:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:568
+#: core/forms/views/modal-editor.php:564
 msgid "Integrate zapier with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:572
+#: core/forms/views/modal-editor.php:568
 msgid "Zapier webhook:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:573
+#: core/forms/views/modal-editor.php:569
 msgid "Zapier webhook"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:574
+#: core/forms/views/modal-editor.php:570
 msgid "Enter here zapier web hook."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:583
+#: core/forms/views/modal-editor.php:579
 msgid "Slack:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:585
+#: core/forms/views/modal-editor.php:581
 msgid "Integrate slack with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:585
+#: core/forms/views/modal-editor.php:581
 msgid "slack info."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:589
+#: core/forms/views/modal-editor.php:585
 msgid "Slack webhook:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:590
+#: core/forms/views/modal-editor.php:586
 msgid "Slack webhook"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:591
+#: core/forms/views/modal-editor.php:587
 msgid "Enter here slack web hook."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:591
+#: core/forms/views/modal-editor.php:587
 msgid "create from here"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:651
+#: core/forms/views/modal-editor.php:647
 msgid "Paypal:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:653
+#: core/forms/views/modal-editor.php:649
 msgid "Integrate paypal payment with this form."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:653
+#: core/forms/views/modal-editor.php:649
 msgid "Configure paypal payment."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:662
+#: core/forms/views/modal-editor.php:658
 msgid "Stripe:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:664
+#: core/forms/views/modal-editor.php:660
 msgid "Integrate stripe payment with this form. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:664
+#: core/forms/views/modal-editor.php:660
 msgid "Configure stripe payment."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:684
+#: core/forms/views/modal-editor.php:680
 msgid "Zoho Contact:"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:686
+#: core/forms/views/modal-editor.php:682
 msgid "Integrate Zoho contacts with this form. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:686
+#: core/forms/views/modal-editor.php:682
 msgid "Configure Zoho."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:697
+#: core/forms/views/modal-editor.php:693
 msgid "Helpscout"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:699
+#: core/forms/views/modal-editor.php:695
 msgid "Integrate Helpscout with this form. "
 msgstr ""
 
-#: core/forms/views/modal-editor.php:699
+#: core/forms/views/modal-editor.php:695
 msgid "Configure Helpscout."
 msgstr ""
 
-#: core/forms/views/modal-editor.php:704
+#: core/forms/views/modal-editor.php:700
 msgid "Available Mailboxes"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:742
+#: core/forms/views/modal-editor.php:738
 msgid "Edit content"
 msgstr ""
 
-#: core/forms/views/modal-editor.php:744
+#: core/forms/views/modal-editor.php:740
 msgid "Save changes"
 msgstr ""
 
@@ -2341,27 +2341,27 @@ msgstr ""
 msgid "Your data inserted on slack."
 msgstr ""
 
-#: plugin.php:468
+#: plugin.php:470
 msgid "Activate Elementor"
 msgstr ""
 
-#: plugin.php:475
+#: plugin.php:477
 msgid "Install Elementor"
 msgstr ""
 
-#: plugin.php:479 plugin.php:511
+#: plugin.php:481 plugin.php:513
 msgid "MetForm requires Elementor version %1$s+, which is currently NOT RUNNING."
 msgstr ""
 
-#: plugin.php:494
+#: plugin.php:496
 msgid "MetForm Pro"
 msgstr ""
 
-#: plugin.php:498 plugin.php:514
+#: plugin.php:500 plugin.php:516
 msgid "We have MetForm Pro version. Check out our pro feature."
 msgstr ""
 
-#: plugin.php:510
+#: plugin.php:512
 msgid "Update Elementor"
 msgstr ""
 

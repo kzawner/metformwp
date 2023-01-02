@@ -244,8 +244,19 @@ Class Action {
 			}
 		}
 
-		return $all_settings;
+		// Attach Aweber custom fields settings with the form settings
+		$aweber_custom_field_settings = get_option( 'mf_aweber_form_data_' . $post_id );
+		if(!empty($aweber_custom_field_settings)){
+			foreach($aweber_custom_field_settings as $aweber_field_setting){
+				if(is_array($aweber_field_setting)){
+					foreach($aweber_field_setting as $kay => $value){
+						$all_settings[$kay] = $value;
+					}
+				}
+			}
+		}
 
+		return $all_settings;
 	}
 
 	public function get_count_views($form_id) {
