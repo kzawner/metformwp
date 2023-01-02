@@ -20,8 +20,7 @@ class KeyCRM
       'offers', 'GET',
       array(
         'include' => 'product',
-        'sku'=> $sku,
-        'filter' => '{"sku": "' . $sku . '"}',
+        'filter[sku]' => $sku,
       ),
     );
     if (count($response->data) != 1) {
