@@ -22,9 +22,14 @@ class Api extends \MetForm\Base\Api
 		}
 
         $form_id = $this->request['id'];
-
         $form_setting = $this->request->get_params();
 
+        // Push the for type settings inside the form setting array
+        $existing_form_setting = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
+        
+        if(isset($existing_form_setting['form_type'])){
+            $form_setting['form_type'] = $existing_form_setting['form_type'];
+        }
 
         /**
          * Hubspot form settings save
@@ -183,6 +188,11 @@ class Api extends \MetForm\Base\Api
 
         $title = $this->request['title'];
         $template_id = $this->request['id'];
+
+        if(isset($this->request['form_type'])) {
+            return Builder::instance()->create_form($title, $template_id, ['form_type' => $this->request['form_type']]);
+        }
+
         return Builder::instance()->create_form($title, $template_id);
     }
 
@@ -280,13 +290,18 @@ class Api extends \MetForm\Base\Api
     {
         if(!current_user_can('manage_options')) {
 			return;
-		}
+			}
         $form_id = $this->request['id'];
 
         $form_guid = $this->request['guid'];
 
         $data = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
-        if(!isset( $data['mf_hubsopt_token']) || empty($data['mf_hubsopt_token'])) return;
+
+        if ( !isset( $data['mf_hubsopt_token']) || empty($data['mf_hubsopt_token']) ) {
+
+			// return error if hubspot token not found
+			return new \WP_Error( '401', esc_html__( 'Not Authorized', 'metform' ), array( 'status' => 401 ) );
+        };
 
         $token = $data['mf_hubsopt_token'];
 
@@ -449,6 +464,32 @@ class Api extends \MetForm\Base\Api
         update_option('metform_option__settings', $settings_option);
 
         return 'disconnected';
+    }
+
+    // API Endpoint for getting templates by selected form type
+    // Example: GET ~/wp-json/metform/v1/forms/gel_form_templates/new?formtype=SELECTEDFORMTYPE
+    public function get_gel_form_templates(){
+        if(!current_user_can('manage_options')) {
+			return;
+		}
+
+        $formType = $this->request['formtype'] ?? '';
+
+        if(!empty($formType)){
+            $templates = \MetForm\Templates\Base::instance()->get_templates_by_form_type($formType);
+        } else {
+            $templates = \MetForm\Templates\Base::instance()->get_templates_by_form_type();
+        }
+
+        ob_start();
+        foreach($templates as $template): 
+            include \MetForm\Plugin::instance()->core_dir() . 'forms/views/modal-form-template-item.php';
+        endforeach;
+
+        // turn off output buffer
+        $output = ob_get_clean();
+
+        return $output;
     }
 
 }

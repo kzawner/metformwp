@@ -12,10 +12,21 @@ echo esc_html__('Take your website to the next level', 'metform'); ?></strong></
         $pluginStatus =  \MetForm\Core\Integrations\Onboard\Classes\Plugin_Status::instance();
         $plugins = \MetForm\Core\Integrations\Onboard\Attr::instance()->utils->get_option('settings', []);
         ?>
+        <div class="attr-col-lg-8">
+            <div class="mf-onboard-single-plugin badge--featured">
+				<img class="badge--featured" src="<?php echo esc_url(self::get_url()); ?>assets/images/products/featured.svg">
+                <label>
+                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/getgenie-logo.svg" alt="Fundraising">
+                    <p class="mf-onboard-single-plugin--description"><span><?php echo esc_html__( 'Get FREE 1500 AI words, SEO Keyword, and Competitor Analysis credits', 'metform' )?> </span><?php echo esc_html__('on your personal AI assistant for Content & SEO right inside WordPress!', 'metform' ); ?></p>
+                    <?php $plugin = $pluginStatus->get_status('getgenie/getgenie.php'); ?>
+                    <a data-plugin_status="<?php echo esc_attr($plugin['status']); ?>" data-activation_url="<?php echo esc_url($plugin['activation_url']); ?>" href="<?php echo esc_url($plugin['installation_url']); ?>" class="mf-pro-btn mf-onboard-single-plugin--install_plugin <?php echo $plugin['status'] == 'activated' ? 'activated' : ''; ?>"><?php echo esc_html($plugin['title'], 'metform'); ?></a>
+                </label>
+            </div>
+        </div>
         <div class="attr-col-lg-4">
             <div class="mf-onboard-single-plugin">
                 <label>
-                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/shopengine-logo.png" alt="ShopEngine">
+                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/shopengine-logo.svg" alt="ShopEngine">
                     <p class="mf-onboard-single-plugin--description"><?php echo esc_html__('Completely customize your  WooCommerce WordPress', 'metform'); ?></p>
                     <?php $plugin = $pluginStatus->get_status('shopengine/shopengine.php'); ?>
                     <a data-plugin_status="<?php echo esc_attr($plugin['status']); ?>" data-activation_url="<?php echo esc_url($plugin['activation_url']); ?>" href="<?php echo esc_url($plugin['installation_url']); ?>" class="mf-pro-btn mf-onboard-single-plugin--install_plugin <?php echo $plugin['status'] == 'activated' ? 'activated' : ''; ?>"><?php echo esc_html($plugin['title'] , 'metform'); ?></a>
@@ -35,7 +46,7 @@ echo esc_html__('Take your website to the next level', 'metform'); ?></strong></
         <div class="attr-col-lg-4">
             <div class="mf-onboard-single-plugin">
                 <label>
-                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/wp-social-logo.png" alt="WpSocial">
+                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/wp-social-logo.svg" alt="WpSocial">
                     <p class="mf-onboard-single-plugin--description"><?php echo esc_html__('Integrate all your social media to your website', 'metform'); ?></p>
                     <?php $plugin = $pluginStatus->get_status('wp-social/wp-social.php'); ?>
                     <a data-plugin_status="<?php echo esc_attr($plugin['status']); ?>" data-activation_url="<?php echo esc_url($plugin['activation_url']); ?>" href="<?php echo esc_url($plugin['installation_url']); ?>" class="mf-pro-btn mf-onboard-single-plugin--install_plugin <?php echo $plugin['status'] == 'activated' ? 'activated' : ''; ?>"><?php echo esc_html($plugin['title'], 'metform'); ?></a>
@@ -45,19 +56,9 @@ echo esc_html__('Take your website to the next level', 'metform'); ?></strong></
         <div class="attr-col-lg-4">
             <div class="mf-onboard-single-plugin">
                 <label>
-                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/ultimate-review-logo.png" alt="UltimateReview">
+                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/ultimate-review-logo.svg" alt="UltimateReview">
                     <p class="mf-onboard-single-plugin--description"><?php echo esc_html__('Integrate various styled review system in your website', 'metform'); ?></p>
                     <?php $plugin = $pluginStatus->get_status('wp-ultimate-review/wp-ultimate-review.php'); ?>
-                    <a data-plugin_status="<?php echo esc_attr($plugin['status']); ?>" data-activation_url="<?php echo esc_url($plugin['activation_url']); ?>" href="<?php echo esc_url($plugin['installation_url']); ?>" class="mf-pro-btn mf-onboard-single-plugin--install_plugin <?php echo $plugin['status'] == 'activated' ? 'activated' : ''; ?>"><?php echo esc_html($plugin['title'], 'metform'); ?></a>
-                </label>
-            </div>
-        </div>
-        <div class="attr-col-lg-4">
-            <div class="mf-onboard-single-plugin">
-                <label>
-                    <img class="mf-onboard-single-plugin--logo" src="<?php echo self::get_url(); ?>assets/images/products/fundraising-logo.png" alt="Fundraising">
-                    <p class="mf-onboard-single-plugin--description"><?php echo esc_html__('Integrate various styled review system in your website', 'metform'); ?></p>
-                    <?php $plugin = $pluginStatus->get_status('wp-fundraising-donation/wp-fundraising.php'); ?>
                     <a data-plugin_status="<?php echo esc_attr($plugin['status']); ?>" data-activation_url="<?php echo esc_url($plugin['activation_url']); ?>" href="<?php echo esc_url($plugin['installation_url']); ?>" class="mf-pro-btn mf-onboard-single-plugin--install_plugin <?php echo $plugin['status'] == 'activated' ? 'activated' : ''; ?>"><?php echo esc_html($plugin['title'], 'metform'); ?></a>
                 </label>
             </div>

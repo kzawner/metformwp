@@ -247,17 +247,26 @@ class MetForm_Input_Email extends widget_base
 				</label>
 			<?php endif; ?>
 
-			<input type="email" <?php if ($default_value) echo 'disabled'; ?> defaultValue="<?php echo $default_value; ?>" 
-			class="mf-input <?php echo $class; ?>" id="mf-input-email-<?php echo esc_attr($this->get_id()); ?>" name="<?php echo esc_attr($mf_input_name); ?>" 
-			placeholder="<?php echo \MetForm\Utils\Util::react_entity_support(esc_html($mf_input_placeholder), $render_on_editor); ?>" <?php if (!$is_edit_mode) : ?> 
-			onBlur=${parent.handleChange} aria-invalid=${validation.errors['<?php echo esc_attr($mf_input_name); ?>'] ? 'true' : 'false' } 
-			ref=${el=> parent.activateValidation(<?php echo json_encode($configData); ?>, el)}
-		<?php endif; ?>
-		/>
+			<input 
+				type="email" 
+				<?php if ($default_value) echo 'disabled'; ?> 
+				defaultValue="<?php echo sanitize_email($default_value); ?>" 
+				class="mf-input <?php echo esc_attr($class); ?>" 
+				id="mf-input-email-<?php echo esc_attr($this->get_id()); ?>" 
+				name="<?php echo esc_attr($mf_input_name); ?>" 
+				placeholder="<?php echo \MetForm\Utils\Util::react_entity_support(esc_html($mf_input_placeholder), $render_on_editor); ?>" 
+				<?php if (!$is_edit_mode) : ?> 
+				onInput=${parent.handleChange} aria-invalid=${validation.errors['<?php echo esc_attr($mf_input_name); ?>'] ? 'true' : 'false' } 
+				ref=${el=> parent.activateValidation(<?php echo json_encode($configData); ?>, el)}
+				<?php endif; ?>
+			/>
 
-		<?php if (!$is_edit_mode) : ?>
-			<${validation.ErrorMessage} errors=${validation.errors} name="<?php echo esc_attr($mf_input_name); ?>" as=${html`<span className="mf-error-message"></span>`}
-				/>
+			<?php if (!$is_edit_mode) : ?>
+			<${validation.ErrorMessage} 
+				errors=${validation.errors} 
+				name="<?php echo esc_attr($mf_input_name); ?>" 
+				as=${html`<span className="mf-error-message"></span>`}
+			/>
 			<?php endif; ?>
 
 			<?php echo '' != $mf_input_help_text ? '<span class="mf-input-help">' . \MetForm\Utils\Util::react_entity_support(esc_html($mf_input_help_text), $render_on_editor) . '</span>' : ''; ?>

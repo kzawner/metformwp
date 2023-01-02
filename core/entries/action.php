@@ -59,19 +59,19 @@ class Action
     {
 
         $this->fields = $this->get_fields($form_id);
-       if(count(File_Data_Validation::validate($this->fields, $file_data)) > 0){
+        if(count(File_Data_Validation::validate($this->fields, $file_data)) > 0){
             $this->response->status = 0;
             $this->response->error[] = esc_html__('You are trying to upload wrong file!', 'metform');
             return $this->response; //file backend validation
-       }
+        }
         $this->form_id = $form_id;
         $this->title = get_the_title($this->form_id);
-        //$this->form_settings = $this->get_form_settings($form_id);
         $this->form_settings = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
 
 
         $this->response->data['redirect_to'] = (!isset($this->form_settings['redirect_to'])) ? '' : $this->form_settings['redirect_to'];
         $this->response->data['hide_form'] = (!isset($this->form_settings['hide_form_after_submission']) ? '' : $this->form_settings['hide_form_after_submission']);
+
         $this->response->data['form_data'] = $form_data;
 
         $email_name = $this->get_input_name_by_widget_type('mf-email');
@@ -824,6 +824,22 @@ class Action
 
                     $this->form_data[$key] = str_repeat('*', strlen(str_replace(' ', '', $value)) - 4) . substr(str_replace(' ', '', $value), -4);
                     $this->form_data[$key . '--type'] = $form_data[$key . '--type']; #insert credit card type
+                }
+            }
+
+
+
+            // If it's quiz form
+            if(isset($this->form_settings['form_type']) && $this->form_settings['form_type'] == 'quiz-form'){
+                $quiz_data_keys = [
+                    'wrong-answer',
+                    'right-answer',
+                    'quiz-marks',
+				'total-question',
+                ];
+
+                if(in_array($key, $quiz_data_keys)){
+                    $this->form_data[$key] = $value;
                 }
             }
         }

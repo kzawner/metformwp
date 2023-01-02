@@ -77,9 +77,23 @@ class Meta_Data
 
     function add_form_data_cmb()
     {
+        // Get the form settings data
+        $post_id = isset($_GET['post']) ? sanitize_text_field($_GET['post']) : '';
+        $form_id = get_post_meta($post_id, 'metform_entries__form_id', true);
+
+        
+        $form_settings = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
+
+        // Change the form entries main title based on the form type
+        $data_title = esc_html__('Data', 'metform');
+        
+        if(isset($form_settings['form_type']) && $form_settings['form_type'] == 'quiz-form'){
+            $data_title = esc_html__('Quiz Data', 'metform');
+        }
+
         add_meta_box(
             'metform_entries__form_data',
-            esc_html__('Data', 'metform'),
+            $data_title,
             [$this, 'show_form_data_cmb'],
             $this->cpt->get_name(),
             'normal',
@@ -160,6 +174,8 @@ class Meta_Data
         wp_nonce_field('meta_nonce', 'meta_nonce');
 
         $this->form_data = get_post_meta($post->ID, 'metform_entries__form_data', true);
+
+
         $this->form_data = (isset($this->form_data)) ? $this->form_data : "";
         // format all form data into html table
         if ($this->form_data != '') {

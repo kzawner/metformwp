@@ -7,6 +7,7 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
     use \MetForm\Traits\Common_Controls;
     use \MetForm\Traits\Conditional_Controls;
     use \MetForm\Widgets\Widget_Notice;
+    use \MetForm\Traits\Quiz_Control;
 
     public function get_name() {
 		return 'mf-multi-select';
@@ -29,92 +30,105 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
     }
 
     protected function register_controls() {
-        
-        $this->start_controls_section(
-			'content_section',
-			[
-				'label' => esc_html__( 'Content', 'metform' ),
-				'tab' => Controls_Manager::TAB_CONTENT,
-			]
-		);
 
-        $this->input_content_controls();
+        if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+			$this->start_controls_section(
+				'quiz_section',
+				[
+					'tab' => Controls_Manager::TAB_CONTENT,
+					'label' => esc_html__( 'Content', 'metform' ),
+				]
+			);
 
-        $input_fields = new Repeater();
+			$this->quiz_controls(['multi-select']);
 
-        $input_fields->add_control(
-            'label', [
-                'label' => esc_html__( 'Input Field Text', 'metform' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => esc_html__( 'Input Text' , 'metform' ),
-                'label_block' => true,
-                'description' => esc_html__('Select list text that will be show to user.', 'metform'),
-            ]
-        );
-        $input_fields->add_control(
-            'value', [
-                'label' => esc_html__( 'Input Field Value', 'metform' ),
-                'type' => Controls_Manager::TEXT,
-                'default' => esc_html__( 'Input Value' , 'metform' ),
-                'label_block' => true,
-                'description' => esc_html__('Select list value that will be store/mail to desired person.', 'metform'),
-            ]
-        );
+		} else {
+            $this->start_controls_section(
+                'content_section',
+                [
+                    'label' => esc_html__( 'Content', 'metform' ),
+                    'tab' => Controls_Manager::TAB_CONTENT,
+                ]
+            );
 
-        $input_fields->add_control(
-            'mf_input_option_status', [
-                'label' => esc_html__( 'Status', 'metform' ),
-                'type' => Controls_Manager::SELECT,
-                'default' => '',
-                'options' => [
-					'' => esc_html__( 'Enable', 'metform' ),
-					'disabled'  => esc_html__( 'Disable', 'metform' ),
-                ],
-                'description' => esc_html__('Want to make a option? which user can see the option but can\'t select it. make it disable.', 'metform'),
-            ]
-        );
+            $this->input_content_controls();
 
-        $input_fields->add_control(
-            'mf_input_option_selected', [
-                'label' => esc_html__( 'Select it default ? ', 'metform' ),
-                'type' => Controls_Manager::SELECT,
-                'default' => '',
-                'options' => [
-					'selected' => esc_html__( 'Yes', 'metform' ),
-					''  => esc_html__( 'No', 'metform' ),
-                ],
-                'description' => esc_html__('Make this option default selected', 'metform'),
-            ]
-        );
+            $input_fields = new Repeater();
 
-        $this->add_control(
-            'mf_input_list',
-            [
-                'label' => esc_html__( 'Multi Select List', 'metform' ),
-                'type' => Controls_Manager::REPEATER,
-                'fields' => $input_fields->get_controls(),
-                'title_field' => '{{{ label }}}',
-                'default' => [
-                    [
-                        'label' => 'Item 1',
-                        'value' => 'value-1',
-                        'mf_input_option_status' => '',
+            $input_fields->add_control(
+                'label', [
+                    'label' => esc_html__( 'Input Field Text', 'metform' ),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => esc_html__( 'Input Text' , 'metform' ),
+                    'label_block' => true,
+                    'description' => esc_html__('Select list text that will be show to user.', 'metform'),
+                ]
+            );
+            $input_fields->add_control(
+                'value', [
+                    'label' => esc_html__( 'Input Field Value', 'metform' ),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => esc_html__( 'Input Value' , 'metform' ),
+                    'label_block' => true,
+                    'description' => esc_html__('Select list value that will be store/mail to desired person.', 'metform'),
+                ]
+            );
+
+            $input_fields->add_control(
+                'mf_input_option_status', [
+                    'label' => esc_html__( 'Status', 'metform' ),
+                    'type' => Controls_Manager::SELECT,
+                    'default' => '',
+                    'options' => [
+                        '' => esc_html__( 'Enable', 'metform' ),
+                        'disabled'  => esc_html__( 'Disable', 'metform' ),
                     ],
-                    [
-                        'label' => 'Item 2',
-                        'value' => 'value-2',
-                        'mf_input_option_status' => '',
+                    'description' => esc_html__('Want to make a option? which user can see the option but can\'t select it. make it disable.', 'metform'),
+                ]
+            );
+
+            $input_fields->add_control(
+                'mf_input_option_selected', [
+                    'label' => esc_html__( 'Select it default ? ', 'metform' ),
+                    'type' => Controls_Manager::SELECT,
+                    'default' => '',
+                    'options' => [
+                        'selected' => esc_html__( 'Yes', 'metform' ),
+                        ''  => esc_html__( 'No', 'metform' ),
                     ],
-                    [
-                        'label' => 'Item 3',
-                        'value' => 'value-3',
-                        'mf_input_option_status' => '',
+                    'description' => esc_html__('Make this option default selected', 'metform'),
+                ]
+            );
+
+            $this->add_control(
+                'mf_input_list',
+                [
+                    'label' => esc_html__( 'Multi Select List', 'metform' ),
+                    'type' => Controls_Manager::REPEATER,
+                    'fields' => $input_fields->get_controls(),
+                    'title_field' => '{{{ label }}}',
+                    'default' => [
+                        [
+                            'label' => 'Item 1',
+                            'value' => 'value-1',
+                            'mf_input_option_status' => '',
+                        ],
+                        [
+                            'label' => 'Item 2',
+                            'value' => 'value-2',
+                            'mf_input_option_status' => '',
+                        ],
+                        [
+                            'label' => 'Item 3',
+                            'value' => 'value-3',
+                            'mf_input_option_status' => '',
+                        ],
                     ],
-                ],
-                'description' => esc_html__('You can add/edit here your selector options.', 'metform'),
-			 'frontend_available' => true,
-            ]
-        );
+                    'description' => esc_html__('You can add/edit here your selector options.', 'metform'),
+                'frontend_available' => true,
+                ]
+            );
+        }
 
         $this->end_controls_section();
 
@@ -126,7 +140,7 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
 			]
 		);
 
-		$this->input_setting_controls();
+	   $this->input_setting_controls();
 
         $this->add_control(
             'mf_input_validation_type',
@@ -145,12 +159,21 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
 			$this->input_conditional_control();
 		}
 
-        $this->start_controls_section(
-			'label_section',
-			[
+        if ( $this->get_form_type() == 'quiz-form' && class_exists('\MetForm_Pro\Base\Package') ) {
+			$this->start_controls_section(
+				'label_section',
+				[
+					'label' => esc_html__( 'Label', 'metform' ),
+					'tab' => Controls_Manager::TAB_STYLE,
+				]
+			);
+		} else {
+            $this->start_controls_section(
+                'label_section',
+                [
 				'label' => esc_html__( 'Label', 'metform' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-                'conditions' => [
+				'tab' => Controls_Manager::TAB_STYLE,
+				'conditions' => [
 					'relation' => 'or',
 					'terms' => [
 						[
@@ -164,9 +187,10 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
 							'value' => 'yes',
 						],
 					],
-                ],
-			]
-        );
+				],
+               ]
+            );
+        }
 
 		$this->input_label_controls();
 
@@ -244,24 +268,24 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
             if(isset($item['mf_input_option_selected']) && !empty($item['mf_input_option_selected'])){
                 return $item["value"];
             }
+
             return false;
         })) : array();
 
-        $defaultValue = array_map(function($item){
-            return $item["value"];
-        }, $mf_default_input_list);
+	   $default_value =  count($mf_default_input_list) > 0 ? array_column($mf_default_input_list, 'value') : array();
 
+	   if(!$is_edit_mode && isset($mf_quiz_point) && class_exists('\MetForm_Pro\Base\Package')){
+		$answer_list = isset($mf_input_list) ? array_values(array_filter($mf_input_list, function($item){
+			if(isset($item['mf_quiz_question_answer']) && !empty($item['mf_quiz_question_answer'])){
+				return $item["value"];
+			}
+			return false;
+		})) : array();
 
-        if(!$is_edit_mode){
-
-            if(isset($defaultValue) && !empty($defaultValue)){
-                ?>
-                ${!parent.getValue("<?php echo esc_attr($mf_input_name); ?>") && parent.setFormData('<?php echo esc_attr($mf_input_name); ?>', <?php echo json_encode($defaultValue); ?>)}
-                <?php
-            }
-        }
-
-        ?>
+		$answers = count($answer_list) > 0 ? array_column($answer_list, 'value') : array();
+		$quizData = array("answer" => $answers, "correctPoint" => esc_attr($mf_quiz_point ?? 0), "incorrectPoint" => esc_attr($mf_quiz_negative_point ?? 0));
+	 }
+	?>
 
         <?php echo $inputWrapStart; ?>
 
@@ -292,11 +316,22 @@ Class MetForm_Input_Multi_Select extends Widget_Base{
                     }
                     parent.multiSelectChange(el, '<?php echo esc_attr($mf_input_name); ?>');
                 }}
+                ref=${() => {
+				<?php if ( isset($quizData) && ($quizData['correctPoint'] != 0 || $quizData['incorrectPoint'] != 0) ) { ?>
+					!parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] && (
+					parent.state.answers["<?php echo esc_attr($mf_input_name); ?>"] = <?php echo json_encode($quizData); ?>)
+				<?php } ?>
+                    register({ name: "<?php echo esc_attr($mf_input_name); ?>" }, parent.activateValidation(<?php echo json_encode($configData); ?>));
+                    if(parent.state?.submitted !== true){
+                        if ( parent.getValue("<?php echo esc_attr($mf_input_name); ?>") === '' && <?php echo (count($mf_default_input_list) > 0) ? 'true' : 'false'; ?> ) {
+                            parent.setValue( '<?php echo esc_attr($mf_input_name); ?>', '<?php echo json_encode($default_value); ?>');
+                            parent.multiSelectChange('<?php echo json_encode($mf_default_input_list)?>', '<?php echo esc_attr($mf_input_name); ?>');
+                        }
+                    }
+                }}
                 isMulti
-                />
+            />
             
-            ${register({ name: "<?php echo esc_attr($mf_input_name); ?>" }, parent.activateValidation(<?php echo json_encode($configData); ?>))}
-
             <?php if ( !$is_edit_mode ) : ?>
 				<${validation.ErrorMessage}
 					errors=${validation.errors}

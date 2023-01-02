@@ -33,6 +33,9 @@ Class Base extends \MetForm\Base\Common{
 
         if($screen->id == 'edit-metform-form' || $screen->id == 'metform_page_mt-form-settings'){
             include_once 'views/modal-editor.php';
+
+            // Include new modal for add new form
+            include_once 'views/modal-add-new-form.php';
         }
     }
 }

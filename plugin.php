@@ -22,7 +22,7 @@ final class Plugin {
 
     public function version()
     {
-        return '2.2.1';
+        return '3.0.1';
     }
 
     public function package_type()
@@ -162,35 +162,91 @@ final class Plugin {
             $is_pro_active = 'Go Premium';
         }
 
-        \Wpmet\Libs\Pro_Awareness::instance('metform')
-            ->set_parent_menu_slug('metform-menu')
-            ->set_pro_link(
-                (in_array('metform-pro/metform-pro.php', apply_filters('active_plugins', get_option('active_plugins')))) ? '' :
-                    'https://wpmet.com/metform-pricing'
-            )
-            ->set_plugin_file('metform/metform.php')
-            ->set_default_grid_thumbnail($this->utils_url() . '/pro-awareness/assets/support.png')
-            ->set_page_grid([
-                'url' => 'https://wpmet.com/fb-group',
-                'title' => 'Join the Community',
-                'thumbnail' => $this->utils_url() . '/pro-awareness/assets/community.png',
-            ])
-            ->set_page_grid([
-                'url' => 'https://www.youtube.com/playlist?list=PL3t2OjZ6gY8NoB_48DwWKUDRtBEuBOxSc',
-                'title' => 'Video Tutorials',
-                'thumbnail' => $this->utils_url() . '/pro-awareness/assets/videos.png',
-            ])
-            ->set_page_grid([
-                'url' => 'https://wpmet.com/plugin/metform/roadmaps#ideas',
-                'title' => 'Request a feature',
-                'thumbnail' => $this->utils_url() . '/pro-awareness/assets/request.png',
-            ])
-            ->set_plugin_row_meta('Documentation', 'https://help.wpmet.com/docs-cat/metform/', ['target' => '_blank'])
-            ->set_plugin_row_meta('Facebook Community', 'https://wpmet.com/fb-group', ['target' => '_blank'])
-            ->set_plugin_row_meta('Rate the plugin ★★★★★', 'https://wordpress.org/support/plugin/metform/reviews/#new-post', ['target' => '_blank'])
-            ->set_plugin_action_link('Settings', admin_url() . 'admin.php?page=metform-menu-settings')
-            ->set_plugin_action_link($is_pro_active, 'https://wpmet.com/plugin/metform', ['target' => '_blank', 'style' => 'color: #FCB214; font-weight: bold;'])
-            ->call();
+        // \Wpmet\Libs\Pro_Awareness::instance('metform')
+        //     ->set_parent_menu_slug('metform-menu')
+        //     ->set_pro_link(
+        //         (in_array('metform-pro/metform-pro.php', apply_filters('active_plugins', get_option('active_plugins')))) ? '' :
+        //             'https://wpmet.com/metform-pricing'
+        //     )
+        //     ->set_plugin_file('metform/metform.php')
+        //     ->set_default_grid_thumbnail($this->utils_url() . '/pro-awareness/assets/images/support.png')
+        //     ->set_page_grid([
+        //         'url' => 'https://wpmet.com/fb-group',
+        //         'title' => 'Join the Community',
+        //         'thumbnail' => $this->utils_url() . '/pro-awareness/assets/images/community.png',
+		// 		'description' => 'Join our Facebook group to get 20% discount coupon on premium products. Follow us to get more exciting offers.'
+
+        //     ])
+        //     ->set_page_grid([
+        //         'url' => 'https://www.youtube.com/playlist?list=PL3t2OjZ6gY8NoB_48DwWKUDRtBEuBOxSc',
+        //         'title' => 'Video Tutorials',
+        //         'thumbnail' => $this->utils_url() . '/pro-awareness/assets/images/videos.png',
+		// 		'description' => 'Learn the step by step process for developing your site easily from video tutorials.'
+        //     ])
+        //     ->set_page_grid([
+        //         'url' => 'https://wpmet.com/plugin/metform/roadmaps#ideas',
+        //         'title' => 'Request a feature',
+        //         'thumbnail' => $this->utils_url() . '/pro-awareness/assets/images/request.png',
+		// 		'description' => 'Have any special feature in mind? Let us know through the feature request.'
+        //     ])
+        //     ->set_page_grid([
+		// 			'url'       => 'https://wpmet.com/doc/metform/',
+		// 			'title'     => 'Documentation',
+		// 			'thumbnail' => $this->utils_url() . 'pro-awareness/assets/images/documentation.png',
+		// 			'description' => 'Detailed documentation to help you understand the functionality of each feature.'
+		// 	])
+		// 	->set_page_grid([
+		// 			'url'       => 'https://wpmet.com/plugin/metform/roadmaps/',
+		// 			'title'     => 'Public Roadmap',
+		// 			'thumbnail' => $this->utils_url() . 'pro-awareness/assets/images/roadmaps.png',
+		// 			'description' => 'Check our upcoming new features, detailed development stories and tasks'
+		// 	])
+
+           
+        //     // set wpmet products
+		// 	->set_products([
+		// 			'url'       => 'https://getgenie.ai/',
+		// 			'title'     => 'GetGenie',
+		// 			'thumbnail' =>  $this->core_url() . 'integrations/onboard/assets/images/products/getgenie-logo.svg',
+		// 			'description' => 'Your AI-Powered Content & SEO Assistant for WordPress',
+		// 	])
+		// 	->set_products([
+		// 			'url'       => 'https://wpmet.com/plugin/shopengine/',
+		// 			'title'     => 'ShopEngine',
+		// 			'thumbnail' => $this->core_url() . 'integrations/onboard/assets/images/products/shopengine-logo.svg',
+		// 			'description' => 'Complete WooCommerce Solution for Elementor',
+		// 	])
+		// 	->set_products([
+		// 			'url'       => 'https://wpmet.com/plugin/metform/',
+		// 			'title'     => 'MetForm',
+		// 			'thumbnail' => $this->core_url() . 'integrations/onboard/assets/images/products/metform-logo.svg',
+		// 			'description' => 'Most flexible drag-and-drop form builder'
+		// 	])
+		// 	->set_products([
+		// 			'url'       => 'https://wpmet.com/plugin/wp-social/',
+		// 			'title'     => 'WP Social',
+		// 			'thumbnail' => $this->core_url() . 'integrations/onboard/assets/images/products/wp-social-logo.svg',
+		// 			'description' => 'Integrate all your social media to your website'
+		// 	])
+		// 	->set_products([
+		// 			'url'       => 'https://wpmet.com/plugin/wp-ultimate-review/?ref=wpmet',
+		// 			'title'     => 'Ultimate Review',
+		// 			'thumbnail' => $this->core_url() . 'integrations/onboard/assets/images/products/ultimate-review-logo.svg',
+		// 			'description' => 'Integrate various styled review system in your website'
+		// 	])
+		// 	->set_products([
+		// 			'url'       => 'https://products.wpmet.com/crowdfunding/?ref=wpmet',
+		// 			'title'     => 'Fundraising & Donation Platform',
+		// 			'thumbnail' => $this->core_url() . 'integrations/onboard/assets/images/products/wp-fundraising-logo.svg',
+		// 			'description' => 'Enable donation system in your website'
+		// 	])
+
+        //     ->set_plugin_row_meta('Documentation', 'https://help.wpmet.com/docs-cat/metform/', ['target' => '_blank'])
+        //     ->set_plugin_row_meta('Facebook Community', 'https://wpmet.com/fb-group', ['target' => '_blank'])
+        //     ->set_plugin_row_meta('Rate the plugin ★★★★★', 'https://wordpress.org/support/plugin/metform/reviews/#new-post', ['target' => '_blank'])
+        //     ->set_plugin_action_link('Settings', admin_url() . 'admin.php?page=metform-menu-settings')
+        //     ->set_plugin_action_link($is_pro_active, 'https://wpmet.com/plugin/metform', ['target' => '_blank', 'style' => 'color: #FCB214; font-weight: bold;'])
+        //     ->call();
 
 
 

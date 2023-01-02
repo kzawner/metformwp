@@ -46,6 +46,7 @@ class Form_Data
     public static function format_form_data($form_id, $form_data)
     {
         $map_data = static::get_form_data($form_id);
+        $form_settings = \MetForm\Core\Forms\Action::instance()->get_all_data($form_id);
 
         ob_start();
 ?>
@@ -76,9 +77,26 @@ class Form_Data
                         }
 
                         echo "<tr class='mf-data-label'>";
+
                         echo "<td colspan='2'><strong>" . esc_html(($map_data[$key]['mf_input_label'] != '') ? $map_data[$key]['mf_input_label'] : $key) . "</strong></td>";
                         echo "</tr>";
-                        echo "<tr class='mf-data-value'>";
+
+                        $entriy_row_correct_class = '';
+                        
+                        if(isset($form_settings['form_type']) && $form_settings['form_type'] === 'quiz-form' && isset($form_data['wrong-answer']) && isset($form_data['right-answer'])){
+                            $wrong_answers = explode(",", $form_data['wrong-answer']);
+                            $right_answers = explode(",", $form_data['right-answer']);
+
+                            // Find thefield if it exists in the right answers array
+                            if(in_array($map_data[$key]['mf_input_name'], $right_answers)){
+                                $entriy_row_correct_class = 'mf_correct_result';
+
+                            } elseif( in_array($map_data[$key]['mf_input_name'], $wrong_answers) ){
+                                $entriy_row_correct_class = 'mf_wrong_result';
+                            }
+
+                        }
+                        echo "<tr class='mf-data-value {$entriy_row_correct_class}'>";
                         echo "<td class='mf-value-space'>&nbsp;</td>";
 
                         if (!in_array($value['widgetType'], ['mf-file-upload', 'mf-textarea', 'mf-simple-repeater', 'mf-signature', 'mf-like-dislike', 'mf-credit-card'])) {
@@ -127,6 +145,7 @@ class Form_Data
                         echo "</tr>";
                     }
                     ?>
+                    <?php do_action('metform_after_entries_table_data', $form_id, $form_data, $map_data); ?>
                 </tbody>
             </table>
         </div>

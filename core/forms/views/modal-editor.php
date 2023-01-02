@@ -45,8 +45,18 @@ use \MetForm\Core\Integrations\KeyCRM;
                             <div class="mf-input-group">
                                 <label for="attr-input-label" class="attr-input-label"><?php esc_html_e('Success Message:', 'metform'); ?></label>
                                 <input type="text" name="success_message" class="mf-form-modalinput-success_message attr-form-control" data-default-value="<?php esc_html_e('Thank you! Form submitted successfully.', 'metform'); ?>">
-                                <span class='mf-input-help'><?php esc_html_e('This mesage will be shown after a successful submission.', 'metform'); ?></span>
+                                <span class='mf-input-help'><?php esc_html_e('This message will be shown after a successful submission.', 'metform'); ?></span>
                             </div>
+
+                            <?php if (class_exists('\MetForm_Pro\Core\Features\Quiz\Integration')) : ?>
+                            <div class="mf-input-group">
+                                <label class="attr-input-label">
+                                    <input type="checkbox" value="1" name="quiz_summery" class="mf-admin-control-input mf-form-modalinput-quiz_result_show">
+                                    <span><?php esc_html_e('Show Quiz Summary:', 'metform'); ?></span>
+                                </label>
+                                <span class='mf-input-help'><?php esc_html_e('Quiz summary will be shown to user after form submission with success message.', 'metform'); ?></span>
+                            </div>
+                            <?php endif; ?>
 
                             <div class="mf-input-group">
                                 <label class="attr-input-label">
@@ -735,9 +745,8 @@ use \MetForm\Core\Integrations\KeyCRM;
 
                         </div>
 
-                    
-
                     <?php do_action('mf_form_settings_tab_content'); ?>
+
 
                 </div>
 
