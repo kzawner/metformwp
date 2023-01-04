@@ -64,6 +64,8 @@ class KeyCRM
 
     error_log('Response: ' . json_encode($response));
 
+    $response_body = isset($response['body']) ? json_decode($response['body']) : null;
+
     $error_message = null;
     if (is_wp_error($response)) {
       $error_message = "Error occured when posting data to KeyCRM: "
@@ -79,8 +81,6 @@ class KeyCRM
       $this->_log($error_message);
       return false;
     }
-
-    $response_body = isset($response['body']) ? json_decode($response['body']) : null;
 
     return $response_body;
   }
